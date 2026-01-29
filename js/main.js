@@ -62,3 +62,11 @@ overlay.addEventListener('click', toggleSidebar);
 
 // 초기화
 initLocationList();
+
+
+// 페이지 로드 시 바로 위치 요청
+    navigator.geolocation.getCurrentPosition(function(position) {
+        alert("위치 획득 성공! 위도: " + position.coords.latitude + ", 경도: " + position.coords.longitude);
+    }, function(error) {
+        alert("위치 획득 실패: " + error.message);
+    });
