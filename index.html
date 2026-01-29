@@ -1,10 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
-	<!-- Status Bar -->
 	<div id="status">
 		<p></p>
 		<button class="close"><i class="fa fa-times" aria-hidden="true"></i></button>
 	</div>
-	<!-- Current Weather -->
+
 	<div id="current" class="wrapper">
 		<nav>
 			<button id="locateBtn">
@@ -22,7 +33,7 @@
 		<p class="temp">72</p>
 		<p class="conditions">Sunny</p>
 	</div>
-	<!-- Future Forecast -->
+
 	<div id="future" class="wrapper">
 		<div class="container">
 			<h3 class="day">Mon</h3>
@@ -55,8 +66,13 @@
 			<p class="tempRange"><span class="high">63</span> | <span class="low">59</span></p>
 		</div>
 	</div>
+
 	<footer>
 		<p id="lastUpdated">Last updated at 12:00pm</p>
 		<p>Created by <a href="http://tiffanydu.com/" title="Visit Portfolio Site" target="_blank">Tiffany Du</a> | Weather data from <a href="https://www.wunderground.com/" title="Wunderground.com" target="_blank">Wunderground</a></p>
 	</footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="main.js"></script>
 </body>
+</html>
