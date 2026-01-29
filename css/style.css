@@ -1,3 +1,4 @@
+/* 기본 초기화 */
 * {
     margin: 0;
     padding: 0;
@@ -6,282 +7,118 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #87BEE4; /* 이미지의 하늘색 배경 */
+    background-color: #87BEE4;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* 전체 화면 높이 */
-    overflow-x: hidden; /* 가로 스크롤 숨김 */
-    position: relative; /* 오버레이와 사이드바를 위해 */
+    height: 100vh;
+    overflow: hidden;
 }
 
+/* 메인 컨테이너 */
 .container {
     text-align: center;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     padding: 20px;
     position: relative;
-    z-index: 10; /* 사이드바 위로 오도록 */
+    transition: transform 0.3s ease;
 }
 
-/* 왼쪽 상단 버튼들 */
+/* 상단 컨트롤 (햄버거 & 단위) */
 .controls {
     position: absolute;
-    top: -150px; /* 초기 이미지 위치와 비슷하게 */
+    top: -100px;
     left: 20px;
-    display: flex; /* 버튼을 가로로 배열 */
-    flex-direction: column; /* 세로로 다시 정렬 */
-    gap: 10px; /* 버튼 사이 간격 */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .icon-btn {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    width: 42px;
+    height: 42px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
 .icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* 햄버거 아이콘 스타일 */
-.menu-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 8px; /* 햄버거 선 위치 조정 */
-}
-.hamburger {
-    width: 24px;
+/* 햄버거 아이콘 내부 선 */
+.menu-btn span {
+    display: block;
+    width: 18px;
     height: 2px;
-    background-color: white;
-    transition: all 0.3s ease;
+    background: white;
+    margin: 2px 0;
 }
 
-/* 헤더 정보 */
-header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-    word-break: keep-all; /* 긴 도시 이름 줄바꿈 방지 */
-}
+/* 날씨 텍스트 정보 */
+header h1 { font-size: 2.8rem; margin-bottom: 5px; }
+header p { font-size: 1rem; opacity: 0.8; letter-spacing: 1px; }
 
-header p {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    opacity: 0.9;
-}
-
-/* 태양 아이콘 CSS (기존과 동일) */
-.weather-icon {
-    margin: 60px 0;
-    display: flex;
-    justify-content: center;
-}
-
+/* 태양 아이콘 */
+.weather-icon { margin: 50px 0; display: flex; justify-content: center; }
 .sun {
-    width: 80px;
-    height: 80px;
-    background: #F8D148;
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 20px rgba(248, 209, 72, 0.5);
+    width: 80px; height: 80px; background: #F8D148; border-radius: 50%;
+    position: relative; box-shadow: 0 0 25px rgba(248, 209, 72, 0.6);
 }
-
 .sun::before, .sun::after {
-    content: '';
-    position: absolute;
-    background-color: #F8D148; /* 광선도 배경색으로 통일 */
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); background: #F8D148;
 }
+.sun::before { width: 10px; height: 110px; }
+.sun::after { width: 110px; height: 10px; }
 
-.sun::before {
-    top: -20px; left: 35px;
-    width: 10px; height: 120px;
-    transform: rotate(0deg);
-}
-.sun::after {
-    top: 35px; left: -20px;
-    width: 120px; height: 10px;
-    transform: rotate(0deg);
-}
+/* 온도 표시 */
+.temperature { font-size: 7.5rem; position: relative; display: inline-block; }
+.degree-symbol { position: absolute; top: 15px; right: -35px; font-size: 3.5rem; }
+#status { font-size: 1.4rem; letter-spacing: 4px; opacity: 0.9; }
 
-/* 추가적인 광선들을 위해 */
-.sun::nth-child(1) { transform: rotate(45deg); }
-.sun::nth-child(2) { transform: rotate(90deg); }
-.sun::nth-child(3) { transform: rotate(135deg); }
-
-
-/* 온도 및 상태 */
-.temperature {
-    font-size: 8rem;
-    font-weight: 400;
-    line-height: 1;
-    position: relative;
-    display: inline-block;
-}
-
-.degree-symbol {
-    position: absolute;
-    top: 10px;
-    right: -40px;
-    font-size: 4rem;
-}
-
-#status {
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    margin-top: 10px;
-    opacity: 0.9;
-}
-
-/* ===== 사이드바 스타일 ===== */
+/* 사이드바 스타일 */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: -300px; /* 초기에는 숨김 */
-    width: 300px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px); /* 배경 블러 효과 */
-    z-index: 100;
-    transition: left 0.3s ease-out;
-    padding: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-    color: white;
+    position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
+    background: rgba(40, 44, 52, 0.95); z-index: 1000;
+    padding: 30px 20px; transition: 0.3s ease;
 }
-
-.sidebar.active {
-    left: 0; /* 활성화 시 노출 */
-}
+.sidebar.active { left: 0; }
 
 .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
 }
 
-.sidebar-header h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-}
+#close-btn { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
 
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2.5rem;
-    cursor: pointer;
-    line-height: 1;
-}
-
-#location-list {
-    list-style: none;
-    padding: 0;
-}
-
+#location-list { list-style: none; }
 #location-list li {
-    padding: 15px 10px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: background-color 0.2s;
-    text-align: left;
+    padding: 15px; font-size: 1.1rem; cursor: pointer;
+    border-radius: 8px; transition: 0.2s;
 }
+#location-list li:hover { background: rgba(255, 255, 255, 0.1); }
 
-#location-list li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-#location-list li:last-child {
-    border-bottom: none;
-}
-
-/* ===== 오버레이 스타일 ===== */
+/* 오버레이 */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-    display: none; /* 초기에는 숨김 */
-    transition: opacity 0.3s ease-out;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); display: none; z-index: 900;
 }
+.overlay.active { display: block; }
 
-.overlay.active {
-    display: block;
-    opacity: 1;
-}
-
-/* ===== 반응형 디자인 ===== */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.5rem;
-    }
-    header p {
-        font-size: 1rem;
-    }
-    .temperature {
-        font-size: 6rem;
-    }
-    .degree-symbol {
-        font-size: 3rem;
-        right: -30px;
-        top: 5px;
-    }
-    #status {
-        font-size: 1.2rem;
-    }
-
-    .weather-icon {
-        margin: 40px 0;
-    }
-}
-
+/* 반응형 모바일 최적화 */
 @media (max-width: 480px) {
-    header h1 {
-        font-size: 2rem;
-    }
-    header p {
-        font-size: 0.9rem;
-    }
-    .temperature {
-        font-size: 5rem;
-    }
-    .degree-symbol {
-        font-size: 2.5rem;
-        right: -25px;
-        top: 2px;
-    }
-    #status {
-        font-size: 1rem;
-    }
-    .controls {
-        left: 10px;
-        top: -120px;
-    }
-    .icon-btn {
-        width: 35px;
-        height: 35px;
-    }
-    .menu-btn {
-        padding: 7px;
-    }
-    .hamburger {
-        width: 20px;
-    }
-    .sidebar {
-        width: 250px; /* 작은 화면에서 사이드바 폭 줄임 */
-    }
+    header h1 { font-size: 2.2rem; }
+    .temperature { font-size: 6rem; }
+    .controls { top: -80px; }
 }
