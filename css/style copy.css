@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #87BEE4; /* 이미지의 밝은 하늘색 배경 */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 좌측 상단 컨트롤 버튼 스타일 */
+.controls {
+    position: absolute;
+    top: -100px; /* 위치 조절이 필요하면 20px 정도로 수정하세요 */
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 이미지 스타일을 반영한 둥근 버튼 */
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.menu-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: white;
+    margin: 2px 0;
+}
+
+/* 날씨 아이콘 크기 및 중앙 정렬 */
+.weather-icon {
+    margin: 40px 0;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.weather-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* SVG 내부 요소 색상 (icon.css에서 통합) */
+.white { fill: #FFFFFF; }
+.gray { fill: #E0E0E0; }
+.yellow { fill: #FFEB3B; }
+
+/* 텍스트 및 온도 스타일 */
+header h1 { font-size: 3.2rem; margin-bottom: 5px; }
+header p { font-size: 1rem; opacity: 0.9; letter-spacing: 1px; }
+.temperature { font-size: 9rem; font-weight: 400; position: relative; margin-top: 10px; }
+.degree-symbol { position: absolute; top: 15px; right: -40px; font-size: 4rem; }
+#status { font-size: 1.6rem; letter-spacing: 3px; }
+
+/* 사이드바 스타일 (기존 유지) */
+.sidebar {
+    position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
+    background: rgba(40, 44, 52, 0.95); z-index: 1000;
+    padding: 30px 20px; transition: 0.3s ease;
+}
+.sidebar.active { left: 0; }
+.overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); display: none; z-index: 900;
+}
+.overlay.active { display: block; }
+#location-list li { padding: 15px; cursor: pointer; border-radius: 8px; list-style: none; }
+#location-list li:hover { background: rgba(255, 255, 255, 0.1); }
