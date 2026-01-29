@@ -1,40 +1,37 @@
-const apiKey = "YOUR_API_KEY_HERE"; // 발급받은 API Key를 입력하세요
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// 1. API 대신 사용할 가짜 데이터 (Dummy Data)
+const weatherData = {
+    "서울": { temp: "18°C", humidity: "30%", wind: "5 km/h", city: "Seoul", icon: "01d" },
+    "도쿄": { temp: "22°C", humidity: "50%", wind: "10 km/h", city: "Tokyo", icon: "02d" },
+    "뉴욕": { temp: "12°C", humidity: "65%", wind: "20 km/h", city: "New York", icon: "09d" },
+    "런던": { temp: "10°C", humidity: "80%", wind: "15 km/h", city: "London", icon: "10d" }
+};
 
-const searchBox = document.querySelector(".search input");
-const searchBtn = document.querySelector(".search button");
-const weatherIcon = document.querySelector(".weather-icon");
+const searchBtn = document.getElementById("search-btn");
+const cityInput = document.getElementById("city-input");
 
-async function checkWeather(city) {
-    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-
-    if (response.status == 404) {
-        document.querySelector(".error").style.display = "block";
-        document.querySelector(".weather").style.display = "none";
+function updateWeather() {
+    const cityName = cityInput.value.trim();
+    
+    // 데이터가 있는지 확인
+    if (weatherData[cityName]) {
+        const data = weatherData[cityName];
+        
+        // 화면 요소 업데이트
+        document.querySelector(".temp").innerHTML = data.temp;
+        document.querySelector(".city").innerHTML = data.city;
+        document.querySelector(".humidity").innerHTML = data.humidity;
+        document.querySelector(".wind").innerHTML = data.wind;
+        document.querySelector(".weather-icon").src = `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
+        
     } else {
-        var data = await response.json();
-
-        document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
-
-        // 날씨 상태에 따른 아이콘 변경
-        const iconCode = data.weather[0].icon;
-        weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-        document.querySelector(".weather").style.display = "block";
-        document.querySelector(".error").style.display = "none";
+        alert("데이터가 없습니다. (서울, 도쿄, 뉴욕, 런던 중 입력해보세요!)");
     }
 }
 
-searchBtn.addEventListener("click", () => {
-    checkWeather(searchBox.value);
-});
+// 버튼 클릭 이벤트
+searchBtn.addEventListener("click", updateWeather);
 
-// 엔터 키 입력 시에도 검색 가능하게 설정
-searchBox.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        checkWeather(searchBox.value);
-    }
+// 엔터 키 이벤트
+cityInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") updateWeather();
 });

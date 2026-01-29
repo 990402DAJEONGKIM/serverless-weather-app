@@ -3,41 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Static Weather App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="card">
         <div class="search">
-            <input type="text" placeholder="도시 이름을 입력하세요 (ex. Seoul)" spellcheck="false">
-            <button><img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="search"></button>
+            <input type="text" placeholder="도시명 입력 (예: 서울, 도쿄)" id="city-input">
+            <button id="search-btn"><img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="search"></button>
         </div>
         <div class="weather">
-            <img src="https://openweathermap.org/img/wn/10d@2x.png" class="weather-icon" alt="weather-icon">
-            <h1 class="temp">--°C</h1>
-            <h2 class="city">도시명</h2>
+            <img src="https://openweathermap.org/img/wn/01d@2x.png" class="weather-icon" alt="weather-icon">
+            <h1 class="temp">25°C</h1>
+            <h2 class="city">Seoul</h2>
             <div class="details">
                 <div class="col">
                     <img src="https://cdn-icons-png.flaticon.com/512/727/727790.png" alt="humidity">
                     <div>
-                        <p class="humidity">--%</p>
+                        <p class="humidity">40%</p>
                         <p>습도</p>
                     </div>
                 </div>
                 <div class="col">
                     <img src="https://cdn-icons-png.flaticon.com/512/483/483575.png" alt="wind">
                     <div>
-                        <p class="wind">-- km/h</p>
+                        <p class="wind">12 km/h</p>
                         <p>풍속</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="error">
-            <p>잘못된 도시 이름입니다.</p>
-        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
