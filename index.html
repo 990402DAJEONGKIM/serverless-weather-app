@@ -1,62 +1,91 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App (Offline)</title>
-    
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="status">
-        <p></p>
-        <button class="close"><i class="fa fa-times" aria-hidden="true"></i></button>
+<div class="wrapper">
+  <div class="sun"></div>
+  <div class="cloud">
+    <div class="cloud1">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
-
-    <div id="current" class="wrapper">
-        <nav>
-            <button id="locateBtn"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>
-            <button id="unitBtn" data-units="f">f</button>
-        </nav>
-        <h1 class="location">---</h1>
-        <h2 class="date">---</h2>
-        <div class="weatherIcon">
-            <div class="inner"></div>
-        </div>
-        <p class="temp">--</p>
-        <p class="conditions">---</p>
+    <div class="cloud1 c_shadow">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
-
-    <div id="future" class="wrapper">
-        <div class="container">
-            <h3 class="day">---</h3>
-            <div class="weatherIcon"><div class="inner"></div></div>
-            <p class="conditions">---</p>
-            <p class="tempRange"><span class="high">--</span> | <span class="low">--</span></p>
-        </div>
-        <div class="container">
-            <h3 class="day">---</h3>
-            <div class="weatherIcon"><div class="inner"></div></div>
-            <p class="conditions">---</p>
-            <p class="tempRange"><span class="high">--</span> | <span class="low">--</span></p>
-        </div>
-        <div class="container">
-            <h3 class="day">---</h3>
-            <div class="weatherIcon"><div class="inner"></div></div>
-            <p class="conditions">---</p>
-            <p class="tempRange"><span class="high">--</span> | <span class="low">--</span></p>
-        </div>
+  </div>
+  
+  <div class="cloud_s">
+    <div class="cloud1">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
-
-    <footer>
-        <p id="lastUpdated">Last updated at --:--</p>
-        <p>Created by Tiffany Du | Static Edition</p>
-    </footer>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="main.js"></script>
-</body>
-</html>
+    <div class="cloud1 c_shadow">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="cloud_vs">
+    <div class="cloud1">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="cloud1 c_shadow">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+  <div class="haze"></div>
+  <div class="haze_stripe"></div>
+  <div class="haze_stripe"></div>
+  <div class="haze_stripe"></div>
+  <div class="thunder"></div>
+  <div class="rain">
+     <ul>
+       <li></li>
+       <li></li>
+       <li></li>
+    </ul>
+  </div>
+  <div class="sleet">
+     <ul>
+       <li></li>
+       <li></li>
+       <li></li>
+    </ul>
+  </div>
+  <div class="text">
+    <ul>
+      <li>Mostly Sunny</li>
+      <li>Partly Sunny</li>
+      <li>Partly Cloudy</li>
+      <li>Mostly Cloudy</li>
+      <li>Cloudy</li>
+      <li>Hazy</li>
+      <li>Thunderstorm</li>
+      <li>Rain</li>
+      <li>Sleet</li>
+    </ul>
+  </div>
+</div>
