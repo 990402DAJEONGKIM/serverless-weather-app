@@ -73,7 +73,7 @@ initLocationList();
 
 
 // 1. S3 JSON 파일의 URL (실제 본인의 S3 주소로 변경하세요)
-const S3_URL = "https://weater-project-s3-bucket-01.s3.region.amazonaws.com/weather.json";
+const S3_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/11B10101_20260129154522.json";
 
 // 2. 데이터를 가져와서 화면에 뿌려주는 함수
 async function fetchS3WeatherData() {
