@@ -1,39 +1,62 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Static Weather App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
-    <div class="card">
-        <div class="search">
-            <input type="text" placeholder="도시명 입력 (예: 서울, 도쿄)" id="city-input">
-            <button id="search-btn"><img src="https://cdn-icons-png.flaticon.com/512/482/482631.png" alt="search"></button>
-        </div>
-        <div class="weather">
-            <img src="https://openweathermap.org/img/wn/01d@2x.png" class="weather-icon" alt="weather-icon">
-            <h1 class="temp">25°C</h1>
-            <h2 class="city">Seoul</h2>
-            <div class="details">
-                <div class="col">
-                    <img src="https://cdn-icons-png.flaticon.com/512/727/727790.png" alt="humidity">
-                    <div>
-                        <p class="humidity">40%</p>
-                        <p>습도</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <img src="https://cdn-icons-png.flaticon.com/512/483/483575.png" alt="wind">
-                    <div>
-                        <p class="wind">12 km/h</p>
-                        <p>풍속</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
+	<!-- Status Bar -->
+	<div id="status">
+		<p></p>
+		<button class="close"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+	<!-- Current Weather -->
+	<div id="current" class="wrapper">
+		<nav>
+			<button id="locateBtn">
+				<i class="fa fa-location-arrow" aria-hidden="true"></i>
+			</button>
+			<button id="unitBtn" data-units="f">f</button>
+		</nav>
+		<h1 class="location">Chicago, IL</h1>
+		<h2 class="date">Sunday, January 1, 2017</h2>
+		<div class="weatherIcon">
+			<div class="sunny">
+				<div class="inner"></div>
+			</div>
+		</div>
+		<p class="temp">72</p>
+		<p class="conditions">Sunny</p>
+	</div>
+	<!-- Future Forecast -->
+	<div id="future" class="wrapper">
+		<div class="container">
+			<h3 class="day">Mon</h3>
+			<div class="weatherIcon">
+				<div class="partlycloudy">
+					<div class="inner"></div>
+				</div>
+			</div>
+			<p class="conditions">Partly Cloudy</p>
+			<p class="tempRange"><span class="high">64</span> | <span class="low">48</span></p>
+		</div>
+		<div class="container">
+			<h3 class="day">Tue</h3>
+			<div class="weatherIcon">
+				<div class="mostlycloudy">
+					<div class="inner"></div>
+				</div>
+			</div>
+			<p class="conditions">Mostly Cloudy</p>
+			<p class="tempRange"><span class="high">57</span> | <span class="low">45</span></p>
+		</div>
+		<div class="container">
+			<h3 class="day">Wed</h3>
+			<div class="weatherIcon">
+				<div class="rain">
+					<div class="inner"></div>
+				</div>
+			</div>
+			<p class="conditions">Chance of Rain</p>
+			<p class="tempRange"><span class="high">63</span> | <span class="low">59</span></p>
+		</div>
+	</div>
+	<footer>
+		<p id="lastUpdated">Last updated at 12:00pm</p>
+		<p>Created by <a href="http://tiffanydu.com/" title="Visit Portfolio Site" target="_blank">Tiffany Du</a> | Weather data from <a href="https://www.wunderground.com/" title="Wunderground.com" target="_blank">Wunderground</a></p>
+	</footer>
 </body>
-</html>
