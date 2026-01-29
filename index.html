@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App - Animated</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Weather App - Location Selector</title>
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -16,7 +16,8 @@
             <h2>Locations</h2>
             <button id="close-btn">&times;</button>
         </div>
-        <ul id="location-list"></ul>
+        <ul id="location-list">
+            </ul>
     </nav>
 
     <div class="container">
@@ -35,15 +36,16 @@
         </header>
 
         <main>
-            <div class="weather-icon" id="weather-icon-container"></div>
-            
+            <div class="weather-icon">
+                <div class="sun"></div>
+            </div>
             <div class="temperature">
                 <span id="temp">722</span><span class="degree-symbol">°</span>
             </div>
-            <p id="status">맑음</p>
+            <p id="status">SUNNY</p>
         </main>
     </div>
 
-    <script src="/js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
