@@ -3,34 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App UI</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Dynamic Weather App</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
         <div class="controls">
-            <div class="icon-btn location-btn">➤</div>
-            <div class="icon-btn unit-btn">°F</div>
+            <div class="icon-btn menu-btn" id="menu-btn">
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+            </div>
+            <div class="icon-btn unit-btn" id="unit-btn">°F</div>
         </div>
 
         <header>
-            <h1 id="city">Chicago, IL</h1>
-            <p id="date">SUNDAY, JANUARY 1, 2017</p>
+            <h1 id="city">Loading...</h1>
+            <p id="date">Loading...</p>
         </header>
 
         <main>
             <div class="weather-icon">
-                <div class="sun"></div>
+                <div class="sun" id="weather-display-icon"></div>
             </div>
             <div class="temperature">
-                <span id="temp">72</span><span class="degree-symbol">°</span>
+                <span id="temp">--</span><span class="degree-symbol">°</span>
             </div>
-            <p id="status">SUNNY</p>
+            <p id="status">Loading...</p>
         </main>
     </div>
 
-    <script src="js/main.js"></script>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Select Location</h2>
+            <button class="close-btn" id="close-sidebar-btn">&times;</button>
+        </div>
+        <ul id="location-list">
+            </ul>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>

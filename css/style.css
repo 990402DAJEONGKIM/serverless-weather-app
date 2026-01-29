@@ -11,22 +11,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh; /* 전체 화면 높이 */
+    overflow-x: hidden; /* 가로 스크롤 숨김 */
+    position: relative; /* 오버레이와 사이드바를 위해 */
 }
 
 .container {
     text-align: center;
     width: 100%;
     max-width: 600px;
+    padding: 20px;
     position: relative;
+    z-index: 10; /* 사이드바 위로 오도록 */
 }
 
 /* 왼쪽 상단 버튼들 */
 .controls {
     position: absolute;
-    top: -150px; /* 위치 조정 */
+    top: -150px; /* 초기 이미지 위치와 비슷하게 */
     left: 20px;
+    display: flex; /* 버튼을 가로로 배열 */
+    flex-direction: column; /* 세로로 다시 정렬 */
+    gap: 10px; /* 버튼 사이 간격 */
 }
 
 .icon-btn {
@@ -37,9 +43,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
     font-size: 0.9rem;
     cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* 햄버거 아이콘 스타일 */
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 8px; /* 햄버거 선 위치 조정 */
+}
+.hamburger {
+    width: 24px;
+    height: 2px;
+    background-color: white;
+    transition: all 0.3s ease;
 }
 
 /* 헤더 정보 */
@@ -47,6 +72,7 @@ header h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 5px;
+    word-break: keep-all; /* 긴 도시 이름 줄바꿈 방지 */
 }
 
 header p {
@@ -55,7 +81,7 @@ header p {
     opacity: 0.9;
 }
 
-/* 태양 아이콘 CSS */
+/* 태양 아이콘 CSS (기존과 동일) */
 .weather-icon {
     margin: 60px 0;
     display: flex;
@@ -71,24 +97,28 @@ header p {
     box-shadow: 0 0 20px rgba(248, 209, 72, 0.5);
 }
 
-/* 태양 광선 구현 (간략화) */
-.sun::before {
+.sun::before, .sun::after {
     content: '';
     position: absolute;
-    top: -15px; left: 35px;
-    width: 10px; height: 110px;
-    border-top: 15px solid #F8D148;
-    border-bottom: 15px solid #F8D148;
+    background-color: #F8D148; /* 광선도 배경색으로 통일 */
 }
 
-.sun::after {
-    content: '';
-    position: absolute;
-    top: 35px; left: -15px;
-    width: 110px; height: 10px;
-    border-left: 15px solid #F8D148;
-    border-right: 15px solid #F8D148;
+.sun::before {
+    top: -20px; left: 35px;
+    width: 10px; height: 120px;
+    transform: rotate(0deg);
 }
+.sun::after {
+    top: 35px; left: -20px;
+    width: 120px; height: 10px;
+    transform: rotate(0deg);
+}
+
+/* 추가적인 광선들을 위해 */
+.sun::nth-child(1) { transform: rotate(45deg); }
+.sun::nth-child(2) { transform: rotate(90deg); }
+.sun::nth-child(3) { transform: rotate(135deg); }
+
 
 /* 온도 및 상태 */
 .temperature {
@@ -111,4 +141,147 @@ header p {
     letter-spacing: 3px;
     margin-top: 10px;
     opacity: 0.9;
+}
+
+/* ===== 사이드바 스타일 ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* 초기에는 숨김 */
+    width: 300px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px); /* 배경 블러 효과 */
+    z-index: 100;
+    transition: left 0.3s ease-out;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.sidebar.active {
+    left: 0; /* 활성화 시 노출 */
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+#location-list {
+    list-style: none;
+    padding: 0;
+}
+
+#location-list li {
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s;
+    text-align: left;
+}
+
+#location-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#location-list li:last-child {
+    border-bottom: none;
+}
+
+/* ===== 오버레이 스타일 ===== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: none; /* 초기에는 숨김 */
+    transition: opacity 0.3s ease-out;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ===== 반응형 디자인 ===== */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+    header p {
+        font-size: 1rem;
+    }
+    .temperature {
+        font-size: 6rem;
+    }
+    .degree-symbol {
+        font-size: 3rem;
+        right: -30px;
+        top: 5px;
+    }
+    #status {
+        font-size: 1.2rem;
+    }
+
+    .weather-icon {
+        margin: 40px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    header p {
+        font-size: 0.9rem;
+    }
+    .temperature {
+        font-size: 5rem;
+    }
+    .degree-symbol {
+        font-size: 2.5rem;
+        right: -25px;
+        top: 2px;
+    }
+    #status {
+        font-size: 1rem;
+    }
+    .controls {
+        left: 10px;
+        top: -120px;
+    }
+    .icon-btn {
+        width: 35px;
+        height: 35px;
+    }
+    .menu-btn {
+        padding: 7px;
+    }
+    .hamburger {
+        width: 20px;
+    }
+    .sidebar {
+        width: 250px; /* 작은 화면에서 사이드바 폭 줄임 */
+    }
 }
