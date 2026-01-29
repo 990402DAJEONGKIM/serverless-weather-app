@@ -1,200 +1,83 @@
 $(document).ready(function () {
-	var currentDate,
-			currentLocation = 60647, // Default to Chicago
-			currentTemp = [],
-			currentUnits = 'f', // Default to Fahrenheit
-			forecast = [],
-			$forecastDivs = $('#future .container'),
-			$locateBtn = $('#locateBtn'),
-			$unitBtn = $('#unitBtn');
-	
-	// -----------------
-	// Geolocation API
-	// -----------------
-	function getCurrentLocation() {
-		// If geolocation is not supported, output msg and exit out of function
-		if (!navigator.geolocation){
-			showStatus('error', 'ERROR: Geolocation is not supported by this browser');
-			return;
-		}
-		function showPosition(position) {
-			var location  = position.coords.latitude + ',' + position.coords.longitude;
-			getWeather(location); // Get weather after getting position
-			showStatus('success', 'Success! Location found.');
-			$locateBtn.addClass('on'); // Toggle btn class to on if successful
-		}
-		function showError(error) {
-			switch(error.code) {
-        case error.PERMISSION_DENIED:
-					showStatus('error', 'ERROR: Geolocation request denied. Try visiting the HTTPS site: <a href="https://codepen.io/tiffanyadu/pen/qryXBo" target="_blank">https://codepen.io/tiffanyadu/pen/qryXBo</a>');
-					break;
-        case error.POSITION_UNAVAILABLE:
-					showStatus('error', 'ERROR: Location information is unavailable.');
-					break;
-        case error.TIMEOUT:
-					showStatus('error', 'ERROR: The request to get user location timed out.');
-					break;
-        case error.UNKNOWN_ERROR:
-					showStatus('error', 'ERROR: An unknown error occurred.');
-					break;
-    	}
-		}
-		showStatus('', 'Locating…'); // In progress text
-		navigator.geolocation.getCurrentPosition(showPosition, showError, {enableHighAccuracy: true});
-	}
-	
-	// ---------------
-	// Weather API
-	// ---------------
-	
-	// Send request to API to get weather data
-	function getWeather(location) {
-		var weatherRequest = $.ajax({
-			method: 'GET',
-			url: 'https://api.wunderground.com/api/d6fadca18738e4ec/geolookup/conditions/forecast/q/' + location + '.json'
-		});
-		// If getting was successful, send data to be processed
-		weatherRequest.done(function(data) {
-			processData(data);
-		});
-		// If request fails, show error
-		weatherRequest.fail(function(xhr, status, error) {
-			console.warn(error.message);
-		});
-	}
-	
-	// Grab only the needed info from weather request and return
-	function processData(data) {
-		var current = data.current_observation;
-		var daily = data.forecast.simpleforecast.forecastday;
-		// Store values for current date, location, and temp
-		currentDate = daily[0].date.weekday + ', ' + daily[0].date.monthname + ' ' + daily[0].date.day + ', ' + daily[0].date.year;
-		currentLocation = current.display_location.city + ', ' + current.display_location.state;
-		currentTemp = {
-			c: current.temp_c,
-			f: current.temp_f
-		};
-		forecast.length = 0; // Empty array first
-		// Store forecast info
-		daily.forEach(function(day) {
-			var obj = {}; // Temporary object
-			obj.weekdayShort = day.date.weekday_short;
-			obj.conditions = day.conditions;
-			obj.icon = day.icon;
-			obj.c = {
-				high: day.high.celsius,
-				low: day.low.celsius
-			};
-			obj.f = {
-				high: day.high.fahrenheit,
-				low: day.low.fahrenheit
-			};
-			forecast.push(obj);
-		});
-		// Display weather ONLY after processing
-		displayWeather();
-	}
-	
-	// Display data on page
-	function displayWeather() {
-		// Separate today's forecast from the rest
-		var today = forecast.shift();
-		// Today - Print weather data
-		$('#current .location').html(currentLocation);
-		$('#current .date').html(currentDate);
-		$('#current .weatherIcon > div').attr('class', today.icon);
-		$('#current .conditions').html(today.conditions);
-		$('#lastUpdated').html('Last updated at ' + getCurrentTime());
-		// Add forecast data to page, don't display temps yet
-		$forecastDivs.each(function(index) {
-			$(this).find('.day').html(forecast[index].weekdayShort);
-			$(this).find('.weatherIcon').children().attr('class', forecast[index].icon);
-			$(this).find('.conditions').html(forecast[index].conditions);
-		});
-		// Get/update temps with current units
-		updateTemps(currentUnits);
-	}
-	
-	// Update temps and add to page
-	function updateTemps(units) {
-		$('#current .temp').html(Math.round(currentTemp[units]));
-		$forecastDivs.each(function(index) {
-			$(this).find('.high').html(forecast[index][units].high);
-			$(this).find('.low').html(forecast[index][units].low);
-		});
-	}
-	
-	// ------------
-	// Status Bar
-	// ------------
-	var $statusBar = $('#status');
-	
-	function showStatus(statusType, message) {
-		var $statusText = $statusBar.children('p');
-		var icon = '';
-		// Set icon based on statusType
-		if (statusType === 'error') {
-			icon = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
-		} else if (statusType === 'success') {
-			icon = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
-		}
-		// Set status class, icon, text, and open animation
-		$statusText.html(icon + message);
-		$statusBar.attr('class', statusType).slideDown('fast');
-	}
-	// Status bar close animation
-	$statusBar.children('.close').on('click', function() {
-		$statusBar.slideUp('fast'); // Slide up animation
-	});
-	
-	// ---------------
-	// Misc Functions
-	// ---------------
-	
-	// Get and format current time
-	function getCurrentTime() {
-		var now = new Date();
-		var hours = now.getHours();
-		var mins = now.getMinutes();
-		var period = 'am';
-		if (hours > 11) {
-			period = 'pm';
-			if (hours > 12) hours -= 12; // Format for 12-hr clock
-		}
-		if (mins < 10) {
-			mins = '0' + mins; // Format minutes
-		}
-		return hours + ':' + mins + period;
-	}
-	
-	// ------------------------
-	// Locate and Unit Buttons
-	// ------------------------
-	
-	// locateBtn - click to get current location
-	$locateBtn.on('click', function() {
-		getCurrentLocation($(this));
-		$(this).removeClass('on pulse');
-	});
-	
-	// unitBtn - click to toggle units
-	$unitBtn.on('click', function() {
-		$(this).toggleClass('on')
-					 .attr('data-units', $(this).attr('data-units') === 'f' ? 'c' : 'f');
-		currentUnits = $(this).attr('data-units');
-		$(this).html(currentUnits);
-		updateTemps(currentUnits);
-	});
-	
-	// ------------------------
-	// Functions to run onload
-	// ------------------------ 
-	window.onload = function() {
-		getWeather(currentLocation); // Default to get Chicago weather
-		// Suggest to share location with message and button animation
-		setTimeout(function() {
-			showStatus('', 'Click on the <i class="fa fa-location-arrow" aria-hidden="true"></i> button to share your current location.');
-			$locateBtn.addClass('pulse');
-		}, 5000);
-	};
+    // 1. 초기 고정 데이터 세팅 (API 대신 사용)
+    var currentLocation = "Seoul, KR",
+        currentUnits = 'f',
+        currentTemp = { c: 24, f: 75 },
+        forecast = [
+            { weekdayShort: "Today", conditions: "Sunny", icon: "sunny", c: {high: 24, low: 15}, f: {high: 75, low: 59} },
+            { weekdayShort: "Mon", conditions: "Partly Cloudy", icon: "partlycloudy", c: {high: 22, low: 12}, f: {high: 72, low: 54} },
+            { weekdayShort: "Tue", conditions: "Cloudy", icon: "mostlycloudy", c: {high: 19, low: 10}, f: {high: 66, low: 50} },
+            { weekdayShort: "Wed", conditions: "Rainy", icon: "rain", c: {high: 16, low: 8}, f: {high: 61, low: 46} }
+        ];
+
+    var $forecastDivs = $('#future .container'),
+        $locateBtn = $('#locateBtn'),
+        $unitBtn = $('#unitBtn');
+
+    // 2. 화면에 데이터 렌더링 함수
+    function displayWeather() {
+        var today = forecast[0];
+        
+        // 현재 날씨 영역 업데이트
+        $('#current .location').text(currentLocation);
+        $('#current .date').text(new Date().toDateString());
+        $('#current .weatherIcon > div').attr('class', today.icon);
+        $('#current .conditions').text(today.conditions);
+        $('#lastUpdated').text('Last updated at ' + getCurrentTime());
+
+        // 예보 영역 업데이트 (내일부터 3일간)
+        $forecastDivs.each(function(index) {
+            var dayData = forecast[index + 1];
+            $(this).find('.day').text(dayData.weekdayShort);
+            $(this).find('.weatherIcon').children().attr('class', dayData.icon);
+            $(this).find('.conditions').text(dayData.conditions);
+        });
+
+        updateTemps(currentUnits);
+    }
+
+    // 3. 온도 단위 변환 업데이트
+    function updateTemps(units) {
+        $('#current .temp').text(Math.round(currentTemp[units]));
+        $forecastDivs.each(function(index) {
+            var dayData = forecast[index + 1];
+            $(this).find('.high').text(dayData[units].high);
+            $(this).find('.low').text(dayData[units].low);
+        });
+    }
+
+    // 4. 시간 포맷팅
+    function getCurrentTime() {
+        var now = new Date(),
+            hours = now.getHours(),
+            mins = now.getMinutes(),
+            period = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12 || 12;
+        mins = mins < 10 ? '0' + mins : mins;
+        return hours + ':' + mins + period;
+    }
+
+    // 5. 이벤트 리스너
+    $unitBtn.on('click', function() {
+        currentUnits = $(this).attr('data-units') === 'f' ? 'c' : 'f';
+        $(this).attr('data-units', currentUnits).text(currentUnits).toggleClass('on');
+        updateTemps(currentUnits);
+    });
+
+    $locateBtn.on('click', function() {
+        showStatus('success', 'Location updated to ' + currentLocation);
+        $(this).removeClass('pulse').addClass('on');
+    });
+
+    function showStatus(type, msg) {
+        $('#status').attr('class', type).find('p').text(msg);
+        $('#status').slideDown('fast');
+    }
+
+    $('.close').on('click', function() {
+        $('#status').slideUp('fast');
+    });
+
+    // 실행
+    displayWeather();
 });
