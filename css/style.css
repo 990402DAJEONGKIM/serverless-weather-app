@@ -1,35 +1,110 @@
-/* 구글 폰트 불러오기 추가 */
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300,700');
-
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #74b9ff; /* 기본 배경색 추가 */
-    color: #fff;
-    font-family: 'Alegreya Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.5;
-    text-align: center;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
 }
 
-/* 기존 업로드해주신 스타일 유지하되, 레이아웃 붕괴 방지용 */
-.wrapper {
-    max-width: 600px;
-    margin: 0 auto;
+.card {
+    width: 90%;
+    max-width: 470px;
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    color: #fff;
+    padding: 40px 35px;
+    border-radius: 20px;
+    text-align: center;
 }
 
-#current .weatherIcon > div {
-    font-size: 80px; /* 아이콘 크기 조절 */
-    margin: 20px 0;
+.search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* 애니메이션 및 상태별 배경색 (확장 가능) */
-.sunny { color: #feca57; }
-.rain { color: #48dbfb; }
+.search input {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    color: #555;
+    padding: 10px 25px;
+    height: 60px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+}
 
-/* ... (나머지 기존 CSS 코드를 이 아래에 그대로 붙여넣으세요) ... */
+.search button {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.search button img {
+    width: 25px;
+}
+
+.weather-icon {
+    width: 170px;
+    margin-top: 30px;
+}
+
+.weather h1 {
+    font-size: 80px;
+    font-weight: 500;
+}
+
+.weather h2 {
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: -10px;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 50px;
+}
+
+.col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.col img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.humidity, .wind {
+    font-size: 28px;
+    margin-top: -6px;
+}
+
+.weather {
+    display: none; /* 초기 상태에서는 숨김 */
+}
+
+.error {
+    text-align: left;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}

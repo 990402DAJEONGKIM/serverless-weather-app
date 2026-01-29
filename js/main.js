@@ -1,72 +1,40 @@
-$(document).ready(function () {
-    var currentDate,
-        currentLocation = "Chicago, IL", // 초기값
-        currentTemp = { c: 22, f: 72 }, // 더미 데이터 (연결 전 확인용)
-        currentUnits = 'f',
-        forecast = [],
-        $forecastDivs = $('#future .container'),
-        $locateBtn = $('#locateBtn'),
-        $unitBtn = $('#unitBtn'),
-        $statusBar = $('#status');
+const apiKey = "YOUR_API_KEY_HERE"; // 발급받은 API Key를 입력하세요
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-    // 1. 위치 정보 가져오기
-    function getCurrentLocation() {
-        if (!navigator.geolocation) {
-            showStatus('error', '이 브라우저는 위치 정보를 지원하지 않습니다.');
-            return;
-        }
-        
-        showStatus('', '위치를 찾는 중...');
-        
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            const loc = pos.coords.latitude + ',' + pos.coords.longitude;
-            getWeather(loc); 
-            showStatus('success', '위치를 확인했습니다!');
-            $locateBtn.addClass('on').removeClass('pulse');
-        }, function() {
-            showStatus('error', '위치 정보를 가져오는데 실패했습니다.');
-        });
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
+
+async function checkWeather(city) {
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+    if (response.status == 404) {
+        document.querySelector(".error").style.display = "block";
+        document.querySelector(".weather").style.display = "none";
+    } else {
+        var data = await response.json();
+
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+        // 날씨 상태에 따른 아이콘 변경
+        const iconCode = data.weather[0].icon;
+        weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+        document.querySelector(".weather").style.display = "block";
+        document.querySelector(".error").style.display = "none";
     }
+}
 
-    // 2. Weather API 호출 (현재 Wunderground API는 키가 있어야 작동함)
-    function getWeather(location) {
-        // 실제 운영시에는 아래 URL을 OpenWeatherMap 등으로 교체해야 합니다.
-        console.log("Fetching weather for: " + location);
-        
-        // 여기에 API fetch 로직이 들어갑니다.
-        // 현재는 UI 확인을 위해 displayWeather()를 강제로 호출할 수 있습니다.
-        displayWeather(); 
+searchBtn.addEventListener("click", () => {
+    checkWeather(searchBox.value);
+});
+
+// 엔터 키 입력 시에도 검색 가능하게 설정
+searchBox.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        checkWeather(searchBox.value);
     }
-
-    // 3. 화면에 날씨 표시
-    function displayWeather() {
-        $('#current .location').html(currentLocation);
-        $('#current .temp').html(Math.round(currentTemp[currentUnits]));
-        $('#lastUpdated').html('최근 업데이트: ' + getCurrentTime());
-    }
-
-    function getCurrentTime() {
-        var now = new Date();
-        return now.getHours() + ":" + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-    }
-
-    function showStatus(type, msg) {
-        $statusBar.removeClass('error success').addClass(type);
-        $statusBar.find('p').html(msg);
-        $statusBar.slideDown('fast');
-    }
-
-    // 이벤트 리스너
-    $locateBtn.on('click', getCurrentLocation);
-    
-    $unitBtn.on('click', function() {
-        currentUnits = (currentUnits === 'f') ? 'c' : 'f';
-        $(this).text(currentUnits).toggleClass('on');
-        displayWeather();
-    });
-
-    $('.close').on('click', function() { $statusBar.slideUp('fast'); });
-
-    // 시작 시 실행
-    getWeather(currentLocation);
 });
