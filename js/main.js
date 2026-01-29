@@ -1,13 +1,88 @@
-// 1. 지역별 데이터 (나중에 API 연동 가능)
+// 1. icon.html의 원본 SVG 애니메이션 데이터 통합 및 스타일 유지
+const iconTemplates = {
+    "맑음": `
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 44.9 44.9" style="enable-background:new 0 0 44.9 44.9;" xml:space="preserve" height="40px" width="40px">
+            <g id="Sun">
+                <circle class="yellow" cx="22.4" cy="22.6" r="11" fill="#FCD440"/>
+                <g>
+                    <path class="yellow" d="M22.6,8.1h-0.3c-0.3,0-0.6-0.3-0.6-0.6v-7c0-0.3,0.3-0.6,0.6-0.6l0.3,0c0.3,0,0.6,0.3,0.6,0.6v7C23.2,7.8,22.9,8.1,22.6,8.1z" fill="#FCD440"/>
+                    <path class="yellow" d="M22.6,36.8h-0.3c-0.3,0-0.6,0.3-0.6,0.6v7c0,0.3,0.3,0.6,0.6,0.6h0.3c0.3,0,0.6-0.3,0.6-0.6v-7C23.2,37,22.9,36.8,22.6,36.8z" fill="#FCD440"/>
+                    <path class="yellow" d="M8.1,22.3v0.3c0,0.3-0.3,0.6-0.6,0.6h-7c-0.3,0-0.6-0.3-0.6-0.6l0-0.3c0-0.3,0.3-0.6,0.6-0.6h7C7.8,21.7,8.1,21.9,8.1,22.3z" fill="#FCD440"/>
+                    <path class="yellow" d="M36.8,22.3v0.3c0,0.3,0.3,0.6,0.6,0.6h7c0.3,0,0.6-0.3,0.6-0.6v-0.3c0-0.3-0.3-0.6-0.6-0.6h-7C37,21.7,36.8,21.9,36.8,22.3z" fill="#FCD440"/>
+                    <path class="yellow" d="M11.4,31.6l0.2,0.3c0.2,0.2,0.2,0.6-0.1,0.8l-5.3,4.5c-0.2,0.2-0.6,0.2-0.8-0.1l-0.2-0.3c-0.2-0.2-0.2-0.6,0.1-0.8l5.3-4.5C10.9,31.4,11.2,31.4,11.4,31.6z" fill="#FCD440"/>
+                    <path class="yellow" d="M33.2,13l0.2,0.3c0.2,0.2,0.6,0.3,0.8,0.1l5.3-4.5c0.2-0.2,0.3-0.6,0.1-0.8l-0.2-0.3c-0.2-0.2-0.6-0.3-0.8-0.1l-5.3,4.5C33,12.4,33,12.7,33.2,13z" fill="#FCD440"/>
+                    <path class="yellow" d="M11.4,13.2l0.2-0.3c0.2-0.2,0.2-0.6-0.1-0.8L6.3,7.6C6.1,7.4,5.7,7.5,5.5,7.7L5.3,7.9C5.1,8.2,5.1,8.5,5.4,8.7l5.3,4.5C10.9,13.5,11.2,13.5,11.4,13.2z" fill="#FCD440"/>
+                    <path class="yellow" d="M33.2,31.9l0.2-0.3c0.2-0.2,0.6-0.3,0.8-0.1l5.3,4.5c0.2,0.2,0.3,0.6,0.1,0.8l-0.2,0.3c-0.2,0.2-0.6,0.3-0.8,0.1l-5.3-4.5C33,32.5,33,32.1,33.2,31.9z" fill="#FCD440"/>
+                    <animate attributeName="opacity" dur="0.5s" values="1;0.6;1" repeatCount="indefinite" calcMode="linear"/>
+                </g>
+            </g>
+        </svg>`,
+
+    "눈": `
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 55.1 52.5" style="enable-background:new 0 0 55.1 52.5;" xml:space="preserve">
+            <g id="Cloud_7">
+                <g id="White_cloud_7">
+                    <path fill="white" d="M47.2,34.5H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0C55.1,30.9,51.6,34.5,47.2,34.5z"/>
+                    <circle fill="white" cx="17.4" cy="17.3" r="9.3"/>
+                    <circle fill="white" cx="34.5" cy="15.6" r="15.6"/>
+                </g>
+                <circle fill="white" cx="37" cy="43.5" r="3">
+                    <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear"/>
+                </circle>
+                <circle fill="white" cx="27" cy="43.5" r="3">
+                    <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear" begin="0.5s"/>
+                </circle>
+                <circle fill="white" cx="17" cy="43.5" r="3">
+                    <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear" begin="1s"/>
+                </circle>
+            </g>
+        </svg>`,
+
+    "비": `
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 55.1 60" style="enable-background:new 0 0 55.1 49.5;" xml:space="preserve">
+            <g id="Cloud_2">
+                <g id="Rain_2">
+                    <path fill="white" d="M20.7,46.4c0,1.7-1.4,3.1-3.1,3.1s-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8S20.7,44.7,20.7,46.4z"/>
+                    <path fill="white" d="M31.4,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8S31.4,44.7,31.4,46.4z"/>
+                    <path fill="white" d="M41.3,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8S41.3,44.7,41.3,46.4z"/>
+                    <animateTransform attributeName="transform" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" type="translate" values="0 0;0 10" calcMode="linear"/>
+                    <animate attributeName="opacity" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0" calcMode="linear"/>
+                </g>
+                <g id="White_cloud_2">
+                    <path fill="white" d="M47.2,34.5H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0C55.1,30.9,51.6,34.5,47.2,34.5z"/>
+                    <circle fill="white" cx="17.4" cy="17.3" r="9.3"/>
+                    <circle fill="white" cx="34.5" cy="15.6" r="15.6"/>
+                </g>
+            </g>
+        </svg>`,
+
+    "흐림": `
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 60.7 40" style="enable-background:new 0 0 60.7 40;" xml:space="preserve">
+            <g id="Cloud_1">
+                <g id="White_cloud_1">
+                    <path fill="white" d="M47.2,40H7.9C3.5,40,0,36.5,0,32.1l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0C55.1,36.5,51.6,40,47.2,40z"/>
+                    <circle fill="white" cx="17.4" cy="22.8" r="9.3"/>
+                    <circle fill="white" cx="34.5" cy="21.1" r="15.6"/>
+                    <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;5;0" calcMode="linear"/>
+                </g>
+                <g id="Gray_cloud_1">
+                    <path fill="#bdc3c7" d="M54.7,22.3H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0C60.7,19.6,58,22.3,54.7,22.3z"/>
+                    <circle fill="#bdc3c7" cx="45.7" cy="10.7" r="10.7"/>
+                    <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"/>
+                </g>
+            </g>
+        </svg>`
+};
+
+// ... 나머지 함수들 (updateWeather, initLocationList 등)은 동일하게 유지
+
 const weatherData = [
-    { city: "Chicago, IL", temp: 72, status: "SUNNY" },
-    { city: "Seoul, KR", temp: 65, status: "CLEAR" },
-    { city: "London, UK", temp: 58, status: "CLOUDY" },
-    { city: "Tokyo, JP", temp: 70, status: "PARTLY CLOUDY" },
-    { city: "Sydney, AU", temp: 78, status: "SUNNY" }
+    { city: "Chicago, IL", temp: 72, status: "맑음" },
+    { city: "Seoul, KR", temp: 15, status: "눈" },
+    { city: "London, UK", temp: 58, status: "흐림" },
+    { city: "Tokyo, JP", temp: 70, status: "비" }
 ];
 
-// 2. 요소 선택
 const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
 const sidebar = document.getElementById('sidebar');
@@ -18,22 +93,26 @@ const unitBtn = document.getElementById('unit-btn');
 const cityTxt = document.getElementById('city');
 const tempTxt = document.getElementById('temp');
 const statusTxt = document.getElementById('status');
+const iconContainer = document.getElementById('weather-icon-container');
 
-// 3. 사이드바 제어 함수
 function toggleSidebar() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 }
 
-// 4. 지역 선택 및 데이터 업데이트
 function updateWeather(data) {
     cityTxt.innerText = data.city;
     tempTxt.innerText = data.temp;
     statusTxt.innerText = data.status;
-    toggleSidebar(); // 업데이트 후 사이드바 닫기
+
+    // 아이콘 주입
+    if (iconTemplates[data.status]) {
+        iconContainer.innerHTML = iconTemplates[data.status];
+    }
+
+    if (sidebar.classList.contains('active')) toggleSidebar();
 }
 
-// 5. 지역 목록 동적 생성
 function initLocationList() {
     weatherData.forEach(item => {
         const li = document.createElement('li');
@@ -43,7 +122,14 @@ function initLocationList() {
     });
 }
 
-// 6. 온도 단위 변경 (간단 구현)
+// 초기 실행
+initLocationList();
+updateWeather(weatherData[0]);
+
+menuBtn.addEventListener('click', toggleSidebar);
+closeBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
 unitBtn.addEventListener('click', () => {
     let currentTemp = parseInt(tempTxt.innerText);
     if (unitBtn.innerText === "°F") {
