@@ -2,6 +2,7 @@ import requests
 import json
 import boto3
 import pymysql
+import os
 from datetime import datetime
 from config import AUTH_KEY, API_URL, S3_BUCKET, AWS_ACCESS_KEY, AWS_SECRET_KEY, DB_HOST, DB_USER, DB_PASS, DB_NAME
 
@@ -76,76 +77,79 @@ def process_region_data(reg_id):
     
     return filtered_items
 
-def collect_data_by_time(regions):
-    data_by_time = {}  # {announce_time: [items]}
-    total = len(regions)
-    batch_size = 10  # 10개마다 저장
-    try:
-        for i, (regid, region_name) in enumerate(regions):
-            print(f"{i+1}/{total} 처리 중: {regid}, {region_name}")
-            filtered_items = process_region_data(regid)
-            if filtered_items:
-                announce_time = filtered_items[0].get("announceTime", "unknown")
-                if announce_time not in data_by_time:
-                    data_by_time[announce_time] = []
-                data_by_time[announce_time].extend(filtered_items)
-            
-            # 10개마다 저장
-            if (i + 1) % batch_size == 0:
-                save_to_s3_grouped(data_by_time)
-                data_by_time = {}  # 초기화
-        
-        return data_by_time  # 남은 데이터
-    except KeyboardInterrupt:
-        print("중단 감지, 남은 데이터 저장 중...")
-        save_to_s3_grouped(data_by_time)
-        raise  # 재중단
-
-def save_to_s3_grouped(data_by_time):
+def determine_file_key(first_announce_time):
     s3 = boto3.client("s3", aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
-    for announce_time, items in data_by_time.items():
-        if not items:
-            continue
+    base_key = f"weather_data/{first_announce_time}.json"
+    s3_key = base_key
+    version = 1
+    while True:
+        try:
+            s3.head_object(Bucket=S3_BUCKET, Key=s3_key)
+            s3_key = f"weather_data/{first_announce_time}({version}).json"
+            version += 1
+        except s3.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == '404':
+                break
+            else:
+                raise
+    return s3_key
+
+def collect_data_by_time(regions):
+    temp_file = None
+    fixed_s3_key = None
+    total = len(regions)
+    batch_size = 10
+    for i, (regid, region_name) in enumerate(regions):
+        print(f"{i+1}/{total} 처리 중: {regid}, {region_name}")
+        filtered_items = process_region_data(regid)
+        if filtered_items:
+            announce_time = filtered_items[0].get("announceTime", "unknown")
+            if fixed_s3_key is None:
+                fixed_s3_key = determine_file_key(announce_time)
+                temp_file = f"temp_{announce_time}.json"
+            # 로컬 파일에 append
+            with open(temp_file, "a") as f:
+                for item in filtered_items:
+                    json.dump(item, f)
+                    f.write("\n")
         
-        # 그룹화된 데이터를 JSON 구조로 생성
-        filtered_data = {
-            "response": {
-                "header": {"resultCode": "00", "resultMsg": "NORMAL_SERVICE"},
-                "body": {
-                    "dataType": "JSON",
-                    "items": {"item": items},
-                    "pageNo": 1,
-                    "numOfRows": len(items),
-                    "totalCount": len(items)
-                }
+        # 10개마다 중간 저장 표시
+        if (i + 1) % batch_size == 0:
+            print(f"중간 저장: {temp_file} 업데이트됨")
+    
+    return temp_file, fixed_s3_key
+
+def save_to_s3_grouped(temp_file, s3_key):
+    if not temp_file or not os.path.exists(temp_file):
+        return
+    
+    with open(temp_file, "r") as f:
+        lines = f.readlines()
+        items = [json.loads(line.strip()) for line in lines if line.strip()]
+    
+    # JSON 구조 생성
+    filtered_data = {
+        "response": {
+            "header": {"resultCode": "00", "resultMsg": "NORMAL_SERVICE"},
+            "body": {
+                "dataType": "JSON",
+                "items": {"item": items},
+                "pageNo": 1,
+                "numOfRows": len(items),
+                "totalCount": len(items)
             }
         }
-        
-        # S3 키 생성 (중복 시 버전 추가)
-        base_key = f"weather_data/{announce_time}.json"
-        s3_key = base_key
-        version = 1
-        while True:
-            try:
-                s3.head_object(Bucket=S3_BUCKET, Key=s3_key)
-                # 파일 존재 시 버전 추가
-                s3_key = f"weather_data/{announce_time}({version}).json"
-                version += 1
-            except s3.exceptions.ClientError as e:
-                if e.response['Error']['Code'] == '404':
-                    break  # 파일 없음
-                else:
-                    raise  # 다른 오류
-        
-        # JSON을 문자열로 변환
-        json_data = json.dumps(filtered_data, ensure_ascii=False, indent=4)
-        
-        # S3 업로드
-        try:
-            s3.put_object(Bucket=S3_BUCKET, Key=s3_key, Body=json_data.encode('utf-8'))
-            print(f"S3에 저장 완료: {s3_key} (총 {len(items)}개 지역)")
-        except Exception as e:
-            print(f"S3 업로드 실패: {e}")
+    }
+    
+    s3 = boto3.client("s3", aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+    json_data = json.dumps(filtered_data, ensure_ascii=False, indent=4)
+    try:
+        s3.put_object(Bucket=S3_BUCKET, Key=s3_key, Body=json_data.encode('utf-8'))
+        print(f"S3에 저장 완료: {s3_key} (총 {len(items)}개 지역)")
+    except Exception as e:
+        print(f"S3 업로드 실패: {e}")
+    
+    os.remove(temp_file)
 
 # 메인 실행
 try:
@@ -154,8 +158,8 @@ try:
         print("regions 데이터 없음")
         exit()
     
-    remaining_data = collect_data_by_time(regions)
-    save_to_s3_grouped(remaining_data)  # 남은 데이터 저장
+    temp_file, s3_key = collect_data_by_time(regions)
+    save_to_s3_grouped(temp_file, s3_key)
     print("모든 데이터 처리 완료")
 except KeyboardInterrupt:
     print("프로그램 중단")
