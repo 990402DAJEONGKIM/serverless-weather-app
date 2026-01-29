@@ -70,3 +70,35 @@ initLocationList();
     }, function(error) {
         alert("위치 획득 실패: " + error.message);
     });
+
+
+// 1. S3 JSON 파일의 URL (실제 본인의 S3 주소로 변경하세요)
+const S3_URL = "https://weater-project-s3-bucket-01.s3.region.amazonaws.com/weather.json";
+
+// 2. 데이터를 가져와서 화면에 뿌려주는 함수
+async function fetchS3WeatherData() {
+    try {
+        const response = await fetch(S3_URL);
+        if (!response.ok) throw new Error("네트워크 응답에 문제가 있습니다.");
+        
+        const data = await response.json();
+
+        // JSON 구조에 맞춰 'ta' 값 추출 (ta: "-12")
+        const temperature = data.response.body.items.item[0].ta;
+
+        // HTML의 id="temp"인 요소에 값 넣기
+        const tempTxt = document.getElementById('temp');
+        if (tempTxt) {
+            tempTxt.innerText = temperature;
+        }
+
+        console.log("S3 온도 데이터 반영 성공:", temperature);
+    } catch (error) {
+        console.error("데이터를 불러오는 중 에러 발생:", error);
+    }
+}
+
+// 3. 페이지 로드 시 실행
+window.addEventListener('DOMContentLoaded', () => {
+    fetchS3WeatherData();
+});
