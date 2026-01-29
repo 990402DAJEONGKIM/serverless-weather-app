@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body { 
+            background: #f0f0f0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Malgun Gothic', sans-serif; 
+        }
+
+        /* 스마트폰 형태의 기기 프레임 */
+        .device { 
+            width: 350px; 
+            height: 620px; 
+            background: #fff; 
+            border: 5px solid #000; 
+            border-radius: 50px; 
+            padding: 25px; 
+            box-sizing: border-box; 
+        }
+        
+        /* 왼쪽 상단 메뉴 버튼 */
+        .menu-link { 
+            display: block; 
+            width: 35px; 
+            text-decoration: none; 
+            margin-bottom: 25px; 
+            cursor: pointer; 
+        }
+        .menu-bar { 
+            width: 32px; 
+            height: 5px; 
+            background: #000; 
+            margin: 5px 0; 
+            border-radius: 2px; 
+        }
+        .menu-link:hover { 
+            opacity: 0.6; 
+        }
+
+        /* 중앙 날씨 카드 디자인 */
+        .card { 
+            border: 3px solid #000; 
+            border-radius: 40px; 
+            height: 420px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            margin-top: 10px; 
+        }
+
+        .title { 
+            font-size: 1.1rem; 
+            color: #555; 
+            margin-bottom: 25px; 
+        }
+
+        .temp-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        /* 날씨 아이콘 (노란색 원) */
+        .sun { 
+            width: 65px; 
+            height: 65px; 
+            background: #FFD700; 
+            border-radius: 50%; 
+            box-shadow: 0 0 15px rgba(255,215,0,0.5); 
+        }
+
+        .temp-val { 
+            font-size: 5.5rem; 
+            font-weight: bold; 
+        }
+        
+        .info { 
+            font-size: 1.2rem; 
+            margin-top: 15px; 
+        }
+
+        .humidity { 
+            color: #888; 
+            margin-left: 10px; 
+            font-size: 1rem; 
+        }
+
+        .sub-text { 
+            margin-top: 15px; 
+            color: #666; 
+            font-size: 0.9rem; 
+        }
+    </style>
+</head>
+<body>
+    <div class="device">
+        <a href="settings.html" class="menu-link">
+            <div class="menu-bar"></div>
+            <div class="menu-bar"></div>
+            <div class="menu-bar"></div>
+        </a>
+        
+        <div class="card">
+            <div class="title">오늘의 서울 날씨</div>
+            
+            <div class="temp-row">
+                <div class="sun"></div>
+                <div class="temp-val">24.5°</div>
+            </div>
+            
+            <div class="info">
+                <b>맑음</b>
+                <span class="humidity">습도 45%</span>
+            </div>
+            
+            <div class="sub-text">
+                풍속 <b>1.2m/s</b> · 풍향 <b>180°</b>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
