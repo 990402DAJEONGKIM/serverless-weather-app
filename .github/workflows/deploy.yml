@@ -20,7 +20,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /home/${{ secrets.EC2_USERNAME }}/Weather_Project
+            cd /usr/share/nginx/html
             git pull origin main
             # 여기에 빌드 및 재시작 명령어를 입력하세요.
             # 예: npm install && pm2 restart all

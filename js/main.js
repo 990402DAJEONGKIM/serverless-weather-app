@@ -160,6 +160,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
-/*테스트*/
