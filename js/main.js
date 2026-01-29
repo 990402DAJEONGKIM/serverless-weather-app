@@ -74,8 +74,11 @@ const iconTemplates = {
         </svg>`
 };
 
-// ... 나머지 함수들 (updateWeather, initLocationList 등)은 동일하게 유지
 
+
+// 실제 SVG 내용은 너무 길어 생략했으니 기존 작성하신 코드를 그대로 넣으세요.
+
+// 2. 데이터 정의
 const weatherData = [
     { city: "Chicago, IL", temp: 72, status: "맑음" },
     { city: "Seoul, KR", temp: 15, status: "눈" },
@@ -83,6 +86,7 @@ const weatherData = [
     { city: "Tokyo, JP", temp: 70, status: "비" }
 ];
 
+// 3. DOM 요소 선택 (에러 방지를 위해 상단 배치)
 const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
 const sidebar = document.getElementById('sidebar');
@@ -95,17 +99,22 @@ const tempTxt = document.getElementById('temp');
 const statusTxt = document.getElementById('status');
 const iconContainer = document.getElementById('weather-icon-container');
 
+// 4. 기능 함수 정의
 function toggleSidebar() {
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
 }
 
 function updateWeather(data) {
+    // null 체크 추가 (안정성 강화)
+    if (!cityTxt || !tempTxt || !statusTxt || !iconContainer) return;
+
     cityTxt.innerText = data.city;
     tempTxt.innerText = data.temp;
     statusTxt.innerText = data.status;
 
-    // 아이콘 주입
     if (iconTemplates[data.status]) {
         iconContainer.innerHTML = iconTemplates[data.status];
     }
@@ -114,6 +123,9 @@ function updateWeather(data) {
 }
 
 function initLocationList() {
+    if (!locationList) return;
+    
+    locationList.innerHTML = ""; // 중복 방지 초기화
     weatherData.forEach(item => {
         const li = document.createElement('li');
         li.innerText = item.city;
@@ -122,21 +134,29 @@ function initLocationList() {
     });
 }
 
-// 초기 실행
-initLocationList();
-updateWeather(weatherData[0]);
+// 5. 이벤트 리스너 등록 및 초기 실행
+// DOMContentLoaded를 사용하면 HTML이 완전히 로드된 후 실행됨을 보장합니다.
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 초기 화면 설정
+    initLocationList();
+    updateWeather(weatherData[0]);
 
-menuBtn.addEventListener('click', toggleSidebar);
-closeBtn.addEventListener('click', toggleSidebar);
-overlay.addEventListener('click', toggleSidebar);
+    // 버튼 클릭 이벤트
+    if (menuBtn) menuBtn.addEventListener('click', toggleSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+    if (overlay) overlay.addEventListener('click', toggleSidebar);
 
-unitBtn.addEventListener('click', () => {
-    let currentTemp = parseInt(tempTxt.innerText);
-    if (unitBtn.innerText === "°F") {
-        unitBtn.innerText = "°C";
-        tempTxt.innerText = Math.round((currentTemp - 32) * 5 / 9);
-    } else {
-        unitBtn.innerText = "°F";
-        tempTxt.innerText = Math.round((currentTemp * 9 / 5) + 32);
+    if (unitBtn) {
+        unitBtn.addEventListener('click', () => {
+            let currentTemp = parseInt(tempTxt.innerText);
+            if (unitBtn.innerText === "°F") {
+                unitBtn.innerText = "°C";
+                tempTxt.innerText = Math.round((currentTemp - 32) * 5 / 9);
+            } else {
+                unitBtn.innerText = "°F";
+                tempTxt.innerText = Math.round((currentTemp * 9 / 5) + 32);
+            }
+        });
     }
 });
