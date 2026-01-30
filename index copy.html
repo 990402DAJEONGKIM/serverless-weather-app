@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Animated</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div id="main-ui" style="visibility: hidden; opacity: 0; transition: opacity 0.5s ease-in;">
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Locations</h2>
+            <button id="close-btn">&times;</button>
+        </div>
+        <ul id="location-list"></ul>
+    </nav>
+
+    <div class="container">
+        <div class="controls">
+            <div class="icon-btn menu-btn" id="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+        </div>
+
+        <header>
+            <h1 id="city">Loading...</h1>
+            <p id="date"></p>
+        </header>
+
+        <main>
+            <div class="weather-icon" id="weather-icon-container"></div>
+            
+            <div class="temperature">
+                <span id="temp">72</span><span class="degree-symbol">°</span>
+                <span id="temp_differ">72</span><span class="degree-symbol">°</span>
+            </div>
+            <div class="temperature">
+                <span id="temp2">72</span><span class="degree-symbol">°</span>
+                <span id="temp2_differ">72</span><span class="degree-symbol">°</span>
+            </div>
+            <p id="status">날씨 정보를 가져오는 중...</p>
+        </main>
+    </div>
+
+    </div><script src="js/main.js" defer></script>
+</body>
+</html>
+

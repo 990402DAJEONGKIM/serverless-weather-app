@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Animated</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="loading-text" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #87BEE4; display: flex; justify-content: center; align-items: center; z-index: 10000; font-size: 2.5rem; font-weight: bold; color: white;">
+        LOADING...
+    </div>
+
+    <div id="main-ui" style="visibility: hidden; opacity: 0; transition: opacity 0.8s ease-in;">
+    <div class="overlay" id="overlay"></div>
+
+    <!--  djk: 슬라이드 바 상세 바 삭제
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Locations</h2>
+            <button id="close-btn">&times;</button>
+        </div>
+        <ul id="location-list"></ul>
+    </nav>
+    -->
+    <div class="container">
+        <!--  djk: 슬라이브 바, 화씨 온도 삭제
+        <div class="controls">
+            <div class="icon-btn menu-btn" id="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+        </div>
+        -->
+        
+        <header>
+            <h1 id="city">Chicago, IL</h1>
+            <p id="date">SUNDAY, JANUARY 1, 2017</p>
+        </header>
+        
+        <!-- djk: 삭제 
+        <main>
+            <div class="weather-icon" id="weather-icon-container"></div>
+            
+            <div class="temperature">
+                <span id="temp">72</span><span class="degree-symbol">°</span>
+            </div>
+            <p id="status">맑음</p>
+        </main>
+        -->
+        <main>
+            <div class="weather-icon" id="weather-icon-container"></div>
+            
+            <div class="weather-main-group">
+                <div class="temp-widget low">
+                    <span class="widget-label">최저: <span id="low-temp">-5</span>°</span>
+                    <span class="arrow-icon"></span>
+                </div>
+                <!-- djk: 삭제  
+                <div class="temperature">
+                    <span id="temp">-2</span><span class="degree-symbol">°</span>
+                </div>
+                -->
+                <div class="temp-widget high">
+                    <span class="widget-label">최고: <span id="high-temp">1</span>°</span>
+                    <span class="sun-icon"></span>
+                </div>
+            </div>
+
+            <div class="comparison-chip">
+                <span> 어제보다 더 추움! </span>
+            </div>
+
+            <p id="status">구름많음</p>
+        </main>
+    </div>
+
+    </div><script src="js/main.js" defer></script>
+</body>
+</html>
