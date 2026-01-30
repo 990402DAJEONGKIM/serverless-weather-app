@@ -155,6 +155,7 @@ async function fetchS3WeatherData() {
 
     // [A] 위치 정보 획득
     let userLat, userLon;
+    
     try {
         const position = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
