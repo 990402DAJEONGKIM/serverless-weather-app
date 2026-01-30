@@ -272,3 +272,5 @@ async function fetchS3WeatherData() {
 
 // 3. 페이지 로드 시 실행 트리거
 document.addEventListener('DOMContentLoaded', fetchS3WeatherData);
+
+/* */
