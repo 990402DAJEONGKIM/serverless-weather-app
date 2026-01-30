@@ -30,32 +30,16 @@ def get_regions_from_db():
             db=DB_NAME
         )
         cursor = conn.cursor()
-        cursor.execute("SELECT regid, region_name FROM regions")
+        # 뷰에서 regid, region_name, lat, lon 가져옴
+        cursor.execute("SELECT regid, region_name, lat, lon FROM weather.region_view")
         regions = cursor.fetchall()
         conn.close()
-        return regions  # [(regid, region_name), ...]
+        return regions  # [(regid, region_name, lat, lon), ...]
     except pymysql.Error as e:
-        print(f"RDS 오류 (regions): {e}")
+        print(f"RDS 오류 (region_view): {e}")
         return []
 
-def get_lat_lon_from_db(reg_id):
-    try:
-        conn = pymysql.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASS,
-            db=DB_NAME
-        )
-        cursor = conn.cursor()
-        cursor.execute("SELECT lat, lon FROM region_coordinates WHERE regid = %s", (reg_id,))
-        result = cursor.fetchone()
-        conn.close()
-        return result if result else (None, None)
-    except pymysql.Error as e:
-        print(f"DB 좌표 오류 (region_coordinates): {e}")
-        return (None, None)
-
-def process_region_data(reg_id):
+def process_region_data(reg_id, region_name, lat, lon):
     data = fetch_weather_data(reg_id)
     if not data:
         return None
@@ -69,9 +53,9 @@ def process_region_data(reg_id):
     if not filtered_items:
         return None
     
-    # 위도/경도 추가
-    lat, lon = get_lat_lon_from_db(reg_id)
+    # 위도/경도 및 지역 이름 추가
     for item in filtered_items:
+        item["region_name"] = region_name
         item["latitude"] = lat
         item["longitude"] = lon
     
@@ -99,9 +83,9 @@ def collect_data_by_time(regions):
     fixed_s3_key = None
     total = len(regions)
     batch_size = 10
-    for i, (regid, region_name) in enumerate(regions):
+    for i, (regid, region_name, lat, lon) in enumerate(regions):
         print(f"{i+1}/{total} 처리 중: {regid}, {region_name}")
-        filtered_items = process_region_data(regid)
+        filtered_items = process_region_data(regid, region_name, lat, lon)
         if filtered_items:
             announce_time = filtered_items[0].get("announceTime", "unknown")
             if fixed_s3_key is None:
