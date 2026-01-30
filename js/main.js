@@ -1,4 +1,4 @@
-// 1. icon.html의 원본 SVG 애니메이션 데이터 통합 및 스타일 유지
+// 날씨 카테고리 목록, 필요시 추가하면 됨.
 const iconTemplates = {
     "맑음": `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 44.9 44.9" style="enable-background:new 0 0 44.9 44.9;" xml:space="preserve" height="40px" width="40px">
@@ -57,6 +57,70 @@ const iconTemplates = {
         </svg>`,
 
     "흐림": `
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 61.7 42.8" style="enable-background:new 0 0 61.7 42.8;" xml:space="preserve">
+            <g id="Cloud_3">
+              <g id="White_cloud_3">
+                  <path id="XMLID_24_" class="white" d="M47.2,42.8H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0C0,30.5,3.5,27,7.9,27h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,39.2,51.6,42.8,47.2,42.8z"/>
+                  <circle id="XMLID_23_" class="white" cx="17.4" cy="25.5" r="9.3"/>
+                  <circle id="XMLID_22_" class="white" cx="34.5" cy="23.9" r="15.6"/>
+                <animateTransform attributeName="transform"
+                  attributeType="XML"
+                  dur="6s"
+                  keyTimes="0;0.5;1"
+                  repeatCount="indefinite"
+                  type="translate"
+                  values="0;5;0"
+                  calcMode="linear">
+                </animateTransform>
+              </g>
+              <g id="Sun_3">
+                  <circle id="XMLID_30_" class="yellow" cx="31.4" cy="18.5" r="9"/>
+                <g>
+                    <path id="XMLID_31_" class="yellow" d="M31.4,6.6L31.4,6.6c-0.4,0-0.6-0.3-0.6-0.6V0.6C30.8,0.3,31,0,31.3,0l0.1,0 C31.7,0,32,0.3,32,0.6v5.5C32,6.4,31.7,6.6,31.4,6.6z"/>
+                    <path id="XMLID_34_" class="yellow" d="M31.4,30.1L31.4,30.1c-0.4,0-0.6,0.3-0.6,0.6v5.5c0,0.3,0.3,0.6,0.6,0.6h0.1 c0.3,0,0.6-0.3,0.6-0.6v-5.5C32,30.4,31.7,30.1,31.4,30.1z"/>
+                    <path id="XMLID_35_" class="yellow" d="M19.6,18.3L19.6,18.3c0,0.4-0.3,0.6-0.6,0.6h-5.5c-0.3,0-0.6-0.3-0.6-0.6v-0.1 c0-0.3,0.3-0.6,0.6-0.6H19C19.3,17.8,19.6,18,19.6,18.3z"/>
+                    <path id="XMLID_33_" class="yellow" d="M43.1,18.3L43.1,18.3c0,0.4,0.3,0.6,0.6,0.6h5.5c0.3,0,0.6-0.3,0.6-0.6v-0.1 c0-0.3-0.3-0.6-0.6-0.6h-5.5C43.4,17.8,43.1,18,43.1,18.3z"/>
+                    <path id="XMLID_37_" class="yellow" d="M22.4,26L22.4,26c0.3,0.3,0.2,0.7,0,0.9l-4.2,3.6c-0.2,0.2-0.6,0.2-0.8-0.1l-0.1-0.1 c-0.2-0.2-0.2-0.6,0.1-0.8l4.2-3.6C21.9,25.8,22.2,25.8,22.4,26z"/>
+                    <path id="XMLID_36_" class="yellow" d="M40.3,10.7L40.3,10.7c0.3,0.3,0.6,0.3,0.8,0.1l4.2-3.6c0.2-0.2,0.3-0.6,0.1-0.8l-0.1-0.1 c-0.2-0.2-0.6-0.3-0.8-0.1l-4.2,3.6C40.1,10.1,40,10.5,40.3,10.7z"/>
+                    <path id="XMLID_39_" class="yellow" d="M22.4,10.8L22.4,10.8c0.3-0.3,0.2-0.7,0-0.9l-4.2-3.6c-0.2-0.2-0.6-0.2-0.8,0.1l-0.1,0.1 c-0.2,0.2-0.2,0.6,0.1,0.8l4.2,3.6C21.9,11,22.2,11,22.4,10.8z"/>
+                    <path id="XMLID_38_" class="yellow" d="M40.3,26.1L40.3,26.1c0.3-0.3,0.6-0.3,0.8-0.1l4.2,3.6c0.2,0.2,0.3,0.6,0.1,0.8l-0.1,0.1 c-0.2,0.2-0.6,0.3-0.8,0.1l-4.2-3.6C40.1,26.7,40,26.3,40.3,26.1z"/>
+                  <animate attributeType="CSS"
+                    attributeName="opacity"
+                    attributeType="XML"
+                    dur="0.5s"
+                    keyTimes="0;0.5;1"
+                    repeatCount="indefinite"
+                    values="1;0.6;1"
+                    calcMode="linear"/>
+                </g>
+              </g>
+              <animateTransform attributeName="transform"
+                attributeType="XML"
+                dur="2s"
+                keyTimes="0;1"
+                repeatCount="indefinite"
+                type="scale"
+                values="1;1"
+                calcMode="linear">
+              </animateTransform>
+             </g>
+             <g id="Gray_cloud_3">
+                <path id="XMLID_20_" class="gray" d="M55.7,25.1H34.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C61.7,22.4,59,25.1,55.7,25.1z"/>
+                <circle id="XMLID_19_" class="gray" cx="46.7" cy="13.4" r="10.7"/>
+              <animateTransform attributeName="transform"
+                attributeType="XML"
+                dur="6s"
+                keyTimes="0;0.5;1"
+                repeatCount="indefinite"
+                type="translate"
+                values="0;-3;0"
+                calcMode="linear">
+              </animateTransform>
+             </g>
+           </g>
+          </svg>`,
+
+    "구름많음": `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 60.7 40" style="enable-background:new 0 0 60.7 40;" xml:space="preserve">
             <g id="Cloud_1">
                 <g id="White_cloud_1">
@@ -74,95 +138,7 @@ const iconTemplates = {
         </svg>`
 };
 
-
-
-// 실제 SVG 내용은 너무 길어 생략했으니 기존 작성하신 코드를 그대로 넣으세요.
-
-// 2. 데이터 정의
-const weatherData = [
-    { city: "Chicago, IL", temp: 72, status: "맑음" },
-    { city: "Seoul, KR", temp: 15, status: "눈" },
-    { city: "London, UK", temp: 58, status: "흐림" },
-    { city: "Tokyo, JP", temp: 70, status: "비" }
-];
-
-// 3. DOM 요소 선택 (에러 방지를 위해 상단 배치)
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-const locationList = document.getElementById('location-list');
-const unitBtn = document.getElementById('unit-btn');
-
-const cityTxt = document.getElementById('city');
-const tempTxt = document.getElementById('temp');
-const statusTxt = document.getElementById('status');
-const iconContainer = document.getElementById('weather-icon-container');
-
-// 4. 기능 함수 정의
-function toggleSidebar() {
-    if (sidebar && overlay) {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
-}
-
-function updateWeather(data) {
-    // null 체크 추가 (안정성 강화)
-    if (!cityTxt || !tempTxt || !statusTxt || !iconContainer) return;
-
-    cityTxt.innerText = data.city;
-    tempTxt.innerText = data.temp;
-    statusTxt.innerText = data.status;
-
-    if (iconTemplates[data.status]) {
-        iconContainer.innerHTML = iconTemplates[data.status];
-    }
-
-    if (sidebar.classList.contains('active')) toggleSidebar();
-}
-
-function initLocationList() {
-    if (!locationList) return;
-    
-    locationList.innerHTML = ""; // 중복 방지 초기화
-    weatherData.forEach(item => {
-        const li = document.createElement('li');
-        li.innerText = item.city;
-        li.addEventListener('click', () => updateWeather(item));
-        locationList.appendChild(li);
-    });
-}
-
-// 5. 이벤트 리스너 등록 및 초기 실행
-// DOMContentLoaded를 사용하면 HTML이 완전히 로드된 후 실행됨을 보장합니다.
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 초기 화면 설정
-    initLocationList();
-    updateWeather(weatherData[0]);
-
-    // 버튼 클릭 이벤트
-    if (menuBtn) menuBtn.addEventListener('click', toggleSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
-    if (overlay) overlay.addEventListener('click', toggleSidebar);
-
-    if (unitBtn) {
-        unitBtn.addEventListener('click', () => {
-            let currentTemp = parseInt(tempTxt.innerText);
-            if (unitBtn.innerText === "°F") {
-                unitBtn.innerText = "°C";
-                tempTxt.innerText = Math.round((currentTemp - 32) * 5 / 9);
-            } else {
-                unitBtn.innerText = "°F";
-                tempTxt.innerText = Math.round((currentTemp * 9 / 5) + 32);
-            }
-        });
-    }
-});
-
-
-// 1. 두 좌표 사이의 거리를 계산하는 함수 (원본 보존)
+// 2. 두 좌표 사이의 거리 계산 (Haversine 공식)
 function getDistance(lat1, lon1, lat2, lon2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -170,40 +146,34 @@ function getDistance(lat1, lon1, lat2, lon2) {
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
               Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
               Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// 2. 통합 날씨 데이터 조회 함수
+// 3. 통합 날씨 데이터 조회 및 UI 업데이트 함수
 async function fetchS3WeatherData() {
-    console.log("--- 날씨 데이터 로드 시작 ---");
+    console.log("--- 날씨 데이터 동기화 시작 ---");
 
-    // [A. 위치 정보 획득]
+    // [A] 위치 정보 획득
     let userLat, userLon;
     try {
         const position = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
                 enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
+                timeout: 10000
             });
         });
         userLat = position.coords.latitude;
         userLon = position.coords.longitude;
-        console.log("📍 현재 위치:", userLat, userLon);
-    } catch (error) {
-        console.error("❌ 위치 정보 획득 실패:", error);
-        if (document.getElementById('city')) document.getElementById('city').innerText = "위치 확인 불가";
-        return;
+    } catch (e) {
+        console.warn("위치 정보 실패, 기본값(서울) 사용");
+        userLat = 37.5665; userLon = 126.9780;
     }
-    
 
-    // [B. 시간 및 날짜 설정]
+    // [B] 시간 및 날짜 설정
     const now = new Date();
     const tokyoNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
     const hours = tokyoNow.getHours();
-    console.log("🕒 현재 시간(Tokyo):", hours, "시");
-
+    
     const fmt = (d) => ({
         y: d.getFullYear(),
         m: String(d.getMonth() + 1).padStart(2, '0'),
@@ -211,11 +181,19 @@ async function fetchS3WeatherData() {
     });
 
     const today = fmt(tokyoNow);
-    const yestDate = new Date(tokyoNow); yestDate.setDate(yestDate.getDate() - 1);
-    const yesterday = fmt(yestDate);
-    const dayBeforeYestDate = new Date(tokyoNow); dayBeforeYestDate.setDate(dayBeforeYestDate.getDate() - 2);
-    const dayBeforeYesterday = fmt(dayBeforeYestDate);
+    const yesterdayDate = new Date(tokyoNow); yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+    const yesterday = fmt(yesterdayDate);
+    const dayBeforeYesterdayDate = new Date(tokyoNow); dayBeforeYesterdayDate.setDate(dayBeforeYesterdayDate.getDate() - 2);
+    const dayBeforeYesterday = fmt(dayBeforeYesterdayDate);
 
+    // 날짜 표시
+    const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+    const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    if (document.getElementById('date')) {
+        document.getElementById('date').innerText = `${days[tokyoNow.getDay()]}, ${months[tokyoNow.getMonth()]} ${tokyoNow.getDate()}, ${tokyoNow.getFullYear()}`;
+    }
+
+    // [C] 파일 경로 설정
     const BASE_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/";
     let highCurr, highPrev, lowCurr, lowPrev;
 
@@ -236,9 +214,7 @@ async function fetchS3WeatherData() {
         lowPrev = `${BASE_URL}${yesterday.y}${yesterday.m}${yesterday.d}1700.json`;
     }
 
-    console.log("📂 요청 파일(현재):", highCurr.split('/').pop(), lowCurr.split('/').pop());
-
-    // [D. 데이터 로드 및 UI 업데이트]
+    // [D] 데이터 로드 및 UI 업데이트
     try {
         const [resHC, resHP, resLC, resLP] = await Promise.all([
             fetch(highCurr).then(r => r.json()),
@@ -247,87 +223,74 @@ async function fetchS3WeatherData() {
             fetch(lowPrev).then(r => r.json())
         ]);
 
-        console.log("✅ 모든 JSON 파일 수신 완료");
+        const findClosest = (data) => {
+            if (!data) return null;
+            let items = Array.isArray(data) ? data : (data.response?.body?.items?.item || null);
+            if (!items || !Array.isArray(items)) return null;
 
-        const findClosest = (data, label) => {
-            if (!data || !data.response || !data.response.body) {
-                console.warn(`⚠️ [${label}] 데이터 구조가 올바르지 않음`);
-                return null;
-            }
-            let closest = null;
-            let minDistance = Infinity;
-            data.response.body.items.item.forEach(item => {
-                const distance = getDistance(userLat, userLon, item.latitude, item.longitude);
-                if (distance < minDistance) { minDistance = distance; closest = item; }
+            let closest = null; let minDistance = Infinity;
+            items.forEach(item => {
+                const d = getDistance(userLat, userLon, item.latitude, item.longitude);
+                if (d < minDistance) { minDistance = d; closest = item; }
             });
             return closest;
         };
 
-        const itemHC = findClosest(resHC, "최고-현재");
-        const itemHP = findClosest(resHP, "최고-이전");
-        const itemLC = findClosest(resLC, "최저-현재");
-        const itemLP = findClosest(resLP, "최저-이전");
+        const itemHC = findClosest(resHC);
+        const itemHP = findClosest(resHP);
+        const itemLC = findClosest(resLC);
+        const itemLP = findClosest(resLP);
 
-        console.log("🔍 매칭된 결과:", {
-            "최고(HC)": itemHC ? itemHC.ta : "없음",
-            "최저(LC)": itemLC ? itemLC.ta : "없음"
-        });
-
-        // 1. 최고 기온 관련 업데이트
+        // 1. 최고/최저 기온 및 아이콘 업데이트 (새 ID 반영)
         if (itemHC) {
             if (document.getElementById('city')) document.getElementById('city').innerText = itemHC.region_name || itemHC.regId;
             if (document.getElementById('status')) document.getElementById('status').innerText = itemHC.wf;
-            if (document.getElementById('temp')) {
-                document.getElementById('temp').innerText = itemHC.ta;
-                console.log("🌡️ temp 업데이트 완료:", itemHC.ta);
+            if (document.getElementById('high-temp')) document.getElementById('high-temp').innerText = itemHC.ta;
+
+            const iconContainer = document.getElementById('weather-icon-container');
+            if (iconContainer && iconTemplates[itemHC.wf]) {
+                iconContainer.innerHTML = iconTemplates[itemHC.wf];
             }
         }
-
-        // 2. 최저 기온 (temp2)
-        if (itemLC) {
-            const temp2Elem = document.getElementById('temp2');
-            if (temp2Elem) {
-                temp2Elem.innerText = itemLC.ta;
-                console.log("🌡️ temp2 업데이트 완료:", itemLC.ta);
-            } else {
-                console.error("❌ HTML에 id='temp2'인 요소가 없습니다.");
-            }
-        } else {
-            console.warn("⚠️ 최저 기온 데이터(itemLC)를 찾지 못했습니다.");
+        if (itemLC && document.getElementById('low-temp')) {
+            document.getElementById('low-temp').innerText = itemLC.ta;
         }
 
-        // 3. 기온 변화량 표시
+        // 2. [비교 로직] 낮과 밤 기온 동시 출력 및 색상 적용
         if (itemHC && itemHP && itemLC && itemLP) {
             const hDiff = (parseFloat(itemHC.ta) - parseFloat(itemHP.ta)).toFixed(1);
             const lDiff = (parseFloat(itemLC.ta) - parseFloat(itemLP.ta)).toFixed(1);
-            const formatDiff = (diff) => diff > 0 ? `▲${diff}` : diff < 0 ? `▼${Math.abs(diff)}` : `0.0`;
             
-            if (document.getElementById('temp_differ')) document.getElementById('temp_differ').innerText = formatDiff(hDiff);
-            if (document.getElementById('temp2_differ')) document.getElementById('temp2_differ').innerText = formatDiff(lDiff);
-            console.log("📊 기온 변화량 업데이트 완료");
+            const chip = document.querySelector('.comparison-chip span');
+            if (chip) {
+                // 색상 적용 함수
+                const getColorClass = (diff) => diff > 0 ? 'style="color: #ff4d4d; font-weight: bold;"' : diff < 0 ? 'style="color: #007bff; font-weight: bold;"' : '';
+                
+                const hText = hDiff > 0 ? `낮 기온 <span ${getColorClass(hDiff)}>▲${hDiff}°</span> 따뜻함` : hDiff < 0 ? `낮 기온 <span ${getColorClass(hDiff)}>▼${Math.abs(hDiff)}°</span> 추움` : `낮 기온 어제와 동일`;
+                const lText = lDiff > 0 ? `밤 기온 <span ${getColorClass(lDiff)}>▲${lDiff}°</span> 따뜻함` : lDiff < 0 ? `밤 기온 <span ${getColorClass(lDiff)}>▼${Math.abs(lDiff)}°</span> 추움` : `밤 기온 어제와 동일`;
+                
+                chip.innerHTML = `${hText}, ${lText}`;
+            }
+        }
+
+        // 3. 로딩 종료 및 화면 표시
+        const loading = document.getElementById('loading-text');
+        const ui = document.getElementById('main-ui');
+        if (loading) loading.style.display = 'none';
+        if (ui) {
+            ui.style.visibility = 'visible';
+            ui.style.opacity = '1';
         }
 
     } catch (error) {
-        console.error("❌ 데이터 로드 또는 처리 중 에러 발생:", error);
+        console.error("❌ 데이터 처리 에러:", error);
+        if (document.getElementById('loading-text')) document.getElementById('loading-text').style.display = 'none';
+        if (document.getElementById('main-ui')) {
+            document.getElementById('main-ui').style.visibility = 'visible';
+            document.getElementById('main-ui').style.opacity = '1';
+        }
     }
-    // [D. 데이터 로드 및 UI 업데이트] try 내부 최하단
-try {
-    // ... 기존 데이터 업데이트 로직들 (temp, temp2, differ 등) ...
-
-    // 2. 모든 데이터가 다 들어갔으므로 UI를 보여줍니다.
-    const ui = document.getElementById('main-ui');
-    if (ui) {
-        ui.style.visibility = 'visible';
-        ui.style.opacity = '1';
-        console.log("✨ 화면 표시 완료");
-    }
-
-} catch (error) {
-    console.error("데이터 로드 오류:", error);
-    // 에러가 나더라도 사용자가 화면은 볼 수 있게 처리
-    document.getElementById('main-ui').style.visibility = 'visible';
-    document.getElementById('main-ui').style.opacity = '1';
-}
 }
 
+// 4. 실행 (DOMContentLoaded 시점에 단 한 번)
 document.addEventListener('DOMContentLoaded', fetchS3WeatherData);
