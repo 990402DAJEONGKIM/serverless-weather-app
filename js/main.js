@@ -296,3 +296,5 @@ async function fetchS3WeatherData() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchS3WeatherData(); 
 });
+
+/**/
