@@ -197,12 +197,12 @@ async function fetchS3WeatherData() {
     const BASE_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/";
     let highCurr, highPrev, lowCurr, lowPrev;
 
-    if (hours < 5) {
+    if (hours < 6) {
         highCurr = `${BASE_URL}${yesterday.y}${yesterday.m}${yesterday.d}0500.json`;
         highPrev = `${BASE_URL}${dayBeforeYesterday.y}${dayBeforeYesterday.m}${dayBeforeYesterday.d}0500.json`;
         lowCurr = `${BASE_URL}${yesterday.y}${yesterday.m}${yesterday.d}1700.json`;
         lowPrev = `${BASE_URL}${dayBeforeYesterday.y}${dayBeforeYesterday.m}${dayBeforeYesterday.d}1700.json`;
-    } else if (hours < 17) {
+    } else if (hours < 18) {
         highCurr = `${BASE_URL}${today.y}${today.m}${today.d}0500.json`;
         highPrev = `${BASE_URL}${yesterday.y}${yesterday.m}${yesterday.d}0500.json`;
         lowCurr = `${BASE_URL}${yesterday.y}${yesterday.m}${yesterday.d}1700.json`;
