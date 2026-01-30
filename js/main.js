@@ -80,9 +80,9 @@ const iconTemplates = {
 
 // 2. 데이터 정의
 const weatherData = [
-    { city: "Chicago, IL", temp: 72, status: "맑음" },
-    { city: "Seoul, KR", temp: 15, status: "눈" },
-    { city: "London, UK", temp: 58, status: "흐림" },
+    { city: "Chicago, IL", temp: 40, status: "맑음" },
+    { city: "Seoul, KR", temp: 56, status: "눈" },
+    { city: "London, UK", temp: 25, status: "흐림" },
     { city: "Tokyo, JP", temp: 70, status: "비" }
 ];
 
@@ -160,3 +160,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// 페이지 로드 시 바로 위치 요청
+    navigator.geolocation.getCurrentPosition(function(position) {
+        alert("위치 획득 성공! 위도: " + position.coords.latitude + ", 경도: " + position.coords.longitude);
+    }, function(error) {
+        alert("위치 획득 실패: " + error.message);
+    });
+
+
+
+
+// 3. 페이지 로드 시 실행
+window.addEventListener('DOMContentLoaded', () => {
+    fetchS3WeatherData();
+});
+
+
+async function fetchS3WeatherData() {
+    const S3_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/11B10101_20260129154522.json"; // 본인의 S3 주소
+
+    try {
+        const response = await fetch(S3_URL);
+        const data = await response.json();
+
+        // 1. item 배열 중에서 numEf가 3인 객체를 찾습니다.
+        const itemArray = data.response.body.items.item;
+        const targetItem = itemArray.find(i => i.numEf === 3);
+
+        // 2. 데이터를 찾았는지 확인 후 화면에 반영합니다.
+        if (targetItem) {
+            console.log("찾은 데이터:", targetItem);
+            
+            // numEf가 3인 데이터의 ta(-12 등)를 가져와서 HTML에 넣기
+            document.getElementById('temp').innerText = targetItem.ta;
+            
+            // 날씨 상태(wf)도 함께 업데이트
+            document.getElementById('status').innerText = targetItem.wf;
+        } else {
+            console.warn("numEf가 3인 데이터를 찾을 수 없습니다.");
+        }
+
+    } catch (error) {
+        console.error("데이터 로드 중 에러:", error);
+    }
+}
+
+//주석테스트
