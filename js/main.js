@@ -220,73 +220,70 @@ function getDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-// 2. 위치 기반 S3 데이터 조회 함수
+// 2. 위치 기반 S3 데이터 조회 및 날짜 업데이트 함수
 async function fetchS3WeatherData() {
-    console.log("위치 기반 최신 날씨 조회 시작...");
+    console.log("위치 정보 확인 중...");
 
-    // [시간 로직] 도쿄 시간 기준 데이터 생성
+    // [A. 위치 정보 획득] - 페이지 로드와 함께 위치를 먼저 받습니다.
+    let userLat, userLon;
+    try {
+        const position = await new Promise((resolve, reject) => {
+            // 별도의 alert 없이 내부적으로 위치를 요청합니다.
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true, // GPS를 사용하여 더 정확한 위치를 받음
+                timeout: 10000,           // 최대 10초까지 대기
+                maximumAge: 0             // 캐시된 데이터 대신 실시간 위치 사용
+            });
+        });
+        userLat = position.coords.latitude;
+        userLon = position.coords.longitude;
+        console.log(`위치 확인 완료: ${userLat}, ${userLon}`);
+    } catch (error) {
+        console.error("위치 정보 획득 실패:", error);
+        const cityDisplay = document.getElementById('city');
+        if (cityDisplay) cityDisplay.innerText = "위치 확인 불가";
+        return; // 위치를 못 받으면 날씨 조회를 중단합니다.
+    }
+
+    // [B. 시간 및 날짜 표시 로직]
     const now = new Date();
     const tokyoNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
     
-    // --- 날짜 업데이트 로직 추가 시작 ---
     const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
     const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
     
-    const dayName = days[tokyoNow.getDay()];
-    const monthName = months[tokyoNow.getMonth()];
-    const dateNum = tokyoNow.getDate();
-    const yearNum = tokyoNow.getFullYear();
-
     const dateDisplay = document.getElementById('date');
     if (dateDisplay) {
-        // 형식: SUNDAY, JANUARY 1, 2017
-        dateDisplay.innerText = `${dayName}, ${monthName} ${dateNum}, ${yearNum}`;
+        dateDisplay.innerText = `${days[tokyoNow.getDay()]}, ${months[tokyoNow.getMonth()]} ${tokyoNow.getDate()}, ${tokyoNow.getFullYear()}`;
     }
-    // --- 날짜 업데이트 로직 추가 끝 ---
 
-    let year = yearNum;
+    // 파일명 생성 (YYYYMMDD0500 또는 YYYYMMDD1700)
+    let year = tokyoNow.getFullYear();
     let month = String(tokyoNow.getMonth() + 1).padStart(2, '0');
-    let day = String(dateNum).padStart(2, '0');
+    let day = String(tokyoNow.getDate()).padStart(2, '0');
     let hours = tokyoNow.getHours();
     
-    let fileTime = "";
-    if (hours >= 17) {
-        fileTime = "1700";
-    } else if (hours >= 5) {
-        fileTime = "0500";
-    } else {
+    let fileTime = (hours >= 17) ? "1700" : (hours >= 5) ? "0500" : "1700";
+    if (hours < 5) {
         const yesterday = new Date(tokyoNow);
         yesterday.setDate(yesterday.getDate() - 1);
         year = yesterday.getFullYear();
         month = String(yesterday.getMonth() + 1).padStart(2, '0');
         day = String(yesterday.getDate()).padStart(2, '0');
-        fileTime = "1700";
     }
 
     const targetFileName = `${year}${month}${day}${fileTime}.json`;
     const BUCKET_BASE_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/";
     const S3_URL = `${BUCKET_BASE_URL}${targetFileName}`;
 
+    // [C. S3 데이터 로드 및 최단거리 매칭]
     try {
-        // [위치 로직] 사용자 현재 좌표 가져오기
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-                enableHighAccuracy: true,
-                timeout: 5000
-            });
-        });
-        const userLat = position.coords.latitude;
-        const userLon = position.coords.longitude;
-        console.log(`사용자 위치: ${userLat}, ${userLon} | 요청 파일: ${targetFileName}`);
-
-        // [통신 로직] S3 파일 가져오기
         const response = await fetch(S3_URL);
-        if (!response.ok) throw new Error(`네트워크 응답 에러: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         
         const data = await response.json();
         const itemArray = data.response.body.items.item;
 
-        // [매칭 로직] 가장 가까운 좌표의 아이템 찾기
         let closestItem = null;
         let minDistance = Infinity;
 
@@ -298,37 +295,32 @@ async function fetchS3WeatherData() {
             }
         });
 
-        // [UI 업데이트] 화면에 데이터 반영
         if (closestItem) {
-            console.log("매칭된 지역명:", closestItem.region_name);
-            
-            // 도시 이름 업데이트 (DB에서 직접 가져온 region_name 사용)
+            // 화면 UI 업데이트
             const cityDisplay = document.getElementById('city');
-            if (cityDisplay) cityDisplay.innerText = closestItem.region_name;
+            if (cityDisplay) cityDisplay.innerText = closestItem.region_name || closestItem.regId;
 
-            // 온도 및 상태 업데이트
             const tempDisplay = document.getElementById('temp');
-            const statusDisplay = document.getElementById('status');
             if (tempDisplay) tempDisplay.innerText = closestItem.ta;
+
+            const statusDisplay = document.getElementById('status');
             if (statusDisplay) statusDisplay.innerText = closestItem.wf;
 
-            // 아이콘 업데이트
             const iconDisp = document.getElementById('weather-icon-container');
             if (iconDisp && typeof iconTemplates !== 'undefined' && iconTemplates[closestItem.wf]) {
                 iconDisp.innerHTML = iconTemplates[closestItem.wf];
             }
-        } else {
-            console.warn("가까운 지역 데이터를 찾을 수 없습니다.");
         }
-
     } catch (error) {
-        console.error("날씨 데이터 로드 실패:", error);
-        const cityDisplay = document.getElementById('city');
-        if (cityDisplay) cityDisplay.innerText = "데이터 로드 실패";
+        console.error("S3 데이터 로드 중 오류:", error);
     }
 }
 
 // 3. 페이지 로드 시 실행 트리거
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
     fetchS3WeatherData(); 
 });
+=======
+document.addEventListener('DOMContentLoaded', fetchS3WeatherData);
+>>>>>>> 973d44130081b69bcd06568fc9dd10ff523ab146
