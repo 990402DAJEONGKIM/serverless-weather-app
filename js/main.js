@@ -172,39 +172,127 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// 3. 페이지 로드 시 실행
-window.addEventListener('DOMContentLoaded', () => {
-    fetchS3WeatherData();
-});
+// 1. 두 좌표 사이의 거리를 계산하는 함수 (Haversine 공식)
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 지구의 반지름 (km)
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
 
-
+// 2. 위치 기반 S3 데이터 조회 함수
 async function fetchS3WeatherData() {
-    const S3_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/11B10101_20260129154522.json"; // 본인의 S3 주소
+    console.log("위치 기반 최신 날씨 조회 시작...");
+
+    // [시간 로직] 도쿄 시간 기준 데이터 생성
+    const now = new Date();
+    const tokyoNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+    
+    // --- 날짜 업데이트 로직 추가 시작 ---
+    const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+    const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    
+    const dayName = days[tokyoNow.getDay()];
+    const monthName = months[tokyoNow.getMonth()];
+    const dateNum = tokyoNow.getDate();
+    const yearNum = tokyoNow.getFullYear();
+
+    const dateDisplay = document.getElementById('date');
+    if (dateDisplay) {
+        // 형식: SUNDAY, JANUARY 1, 2017
+        dateDisplay.innerText = `${dayName}, ${monthName} ${dateNum}, ${yearNum}`;
+    }
+    // --- 날짜 업데이트 로직 추가 끝 ---
+
+    let year = yearNum;
+    let month = String(tokyoNow.getMonth() + 1).padStart(2, '0');
+    let day = String(dateNum).padStart(2, '0');
+    let hours = tokyoNow.getHours();
+    
+    let fileTime = "";
+    if (hours >= 17) {
+        fileTime = "1700";
+    } else if (hours >= 5) {
+        fileTime = "0500";
+    } else {
+        const yesterday = new Date(tokyoNow);
+        yesterday.setDate(yesterday.getDate() - 1);
+        year = yesterday.getFullYear();
+        month = String(yesterday.getMonth() + 1).padStart(2, '0');
+        day = String(yesterday.getDate()).padStart(2, '0');
+        fileTime = "1700";
+    }
+
+    const targetFileName = `${year}${month}${day}${fileTime}.json`;
+    const BUCKET_BASE_URL = "https://weater-project-s3-bucket-01.s3.ap-northeast-2.amazonaws.com/weather_data/";
+    const S3_URL = `${BUCKET_BASE_URL}${targetFileName}`;
 
     try {
+        // [위치 로직] 사용자 현재 좌표 가져오기
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 5000
+            });
+        });
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+        console.log(`사용자 위치: ${userLat}, ${userLon} | 요청 파일: ${targetFileName}`);
+
+        // [통신 로직] S3 파일 가져오기
         const response = await fetch(S3_URL);
+        if (!response.ok) throw new Error(`네트워크 응답 에러: ${response.status}`);
+        
         const data = await response.json();
-
-        // 1. item 배열 중에서 numEf가 3인 객체를 찾습니다.
         const itemArray = data.response.body.items.item;
-        const targetItem = itemArray.find(i => i.numEf === 3);
 
-        // 2. 데이터를 찾았는지 확인 후 화면에 반영합니다.
-        if (targetItem) {
-            console.log("찾은 데이터:", targetItem);
+        // [매칭 로직] 가장 가까운 좌표의 아이템 찾기
+        let closestItem = null;
+        let minDistance = Infinity;
+
+        itemArray.forEach(item => {
+            const distance = getDistance(userLat, userLon, item.latitude, item.longitude);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestItem = item;
+            }
+        });
+
+        // [UI 업데이트] 화면에 데이터 반영
+        if (closestItem) {
+            console.log("매칭된 지역명:", closestItem.region_name);
             
-            // numEf가 3인 데이터의 ta(-12 등)를 가져와서 HTML에 넣기
-            document.getElementById('temp').innerText = targetItem.ta;
-            
-            // 날씨 상태(wf)도 함께 업데이트
-            document.getElementById('status').innerText = targetItem.wf;
+            // 도시 이름 업데이트 (DB에서 직접 가져온 region_name 사용)
+            const cityDisplay = document.getElementById('city');
+            if (cityDisplay) cityDisplay.innerText = closestItem.region_name;
+
+            // 온도 및 상태 업데이트
+            const tempDisplay = document.getElementById('temp');
+            const statusDisplay = document.getElementById('status');
+            if (tempDisplay) tempDisplay.innerText = closestItem.ta;
+            if (statusDisplay) statusDisplay.innerText = closestItem.wf;
+
+            // 아이콘 업데이트
+            const iconDisp = document.getElementById('weather-icon-container');
+            if (iconDisp && typeof iconTemplates !== 'undefined' && iconTemplates[closestItem.wf]) {
+                iconDisp.innerHTML = iconTemplates[closestItem.wf];
+            }
         } else {
-            console.warn("numEf가 3인 데이터를 찾을 수 없습니다.");
+            console.warn("가까운 지역 데이터를 찾을 수 없습니다.");
         }
 
     } catch (error) {
-        console.error("데이터 로드 중 에러:", error);
+        console.error("날씨 데이터 로드 실패:", error);
+        const cityDisplay = document.getElementById('city');
+        if (cityDisplay) cityDisplay.innerText = "데이터 로드 실패";
     }
 }
 
-//주석테스트
+// 3. 페이지 로드 시 실행 트리거
+document.addEventListener('DOMContentLoaded', () => {
+    fetchS3WeatherData(); 
+});
