@@ -1,4 +1,4 @@
-// 1. icon.html의 원본 SVG 애니메이션 데이터 통합 및 스타일 유지
+// 날씨 카테고리 목록, 필요시 추가하면 됨.
 const iconTemplates = {
     "맑음": `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 44.9 44.9" style="enable-background:new 0 0 44.9 44.9;" xml:space="preserve" height="40px" width="40px">
@@ -57,6 +57,70 @@ const iconTemplates = {
         </svg>`,
 
     "흐림": `
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 61.7 42.8" style="enable-background:new 0 0 61.7 42.8;" xml:space="preserve">
+            <g id="Cloud_3">
+              <g id="White_cloud_3">
+                  <path id="XMLID_24_" class="white" d="M47.2,42.8H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0C0,30.5,3.5,27,7.9,27h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,39.2,51.6,42.8,47.2,42.8z"/>
+                  <circle id="XMLID_23_" class="white" cx="17.4" cy="25.5" r="9.3"/>
+                  <circle id="XMLID_22_" class="white" cx="34.5" cy="23.9" r="15.6"/>
+                <animateTransform attributeName="transform"
+                  attributeType="XML"
+                  dur="6s"
+                  keyTimes="0;0.5;1"
+                  repeatCount="indefinite"
+                  type="translate"
+                  values="0;5;0"
+                  calcMode="linear">
+                </animateTransform>
+              </g>
+              <g id="Sun_3">
+                  <circle id="XMLID_30_" class="yellow" cx="31.4" cy="18.5" r="9"/>
+                <g>
+                    <path id="XMLID_31_" class="yellow" d="M31.4,6.6L31.4,6.6c-0.4,0-0.6-0.3-0.6-0.6V0.6C30.8,0.3,31,0,31.3,0l0.1,0 C31.7,0,32,0.3,32,0.6v5.5C32,6.4,31.7,6.6,31.4,6.6z"/>
+                    <path id="XMLID_34_" class="yellow" d="M31.4,30.1L31.4,30.1c-0.4,0-0.6,0.3-0.6,0.6v5.5c0,0.3,0.3,0.6,0.6,0.6h0.1 c0.3,0,0.6-0.3,0.6-0.6v-5.5C32,30.4,31.7,30.1,31.4,30.1z"/>
+                    <path id="XMLID_35_" class="yellow" d="M19.6,18.3L19.6,18.3c0,0.4-0.3,0.6-0.6,0.6h-5.5c-0.3,0-0.6-0.3-0.6-0.6v-0.1 c0-0.3,0.3-0.6,0.6-0.6H19C19.3,17.8,19.6,18,19.6,18.3z"/>
+                    <path id="XMLID_33_" class="yellow" d="M43.1,18.3L43.1,18.3c0,0.4,0.3,0.6,0.6,0.6h5.5c0.3,0,0.6-0.3,0.6-0.6v-0.1 c0-0.3-0.3-0.6-0.6-0.6h-5.5C43.4,17.8,43.1,18,43.1,18.3z"/>
+                    <path id="XMLID_37_" class="yellow" d="M22.4,26L22.4,26c0.3,0.3,0.2,0.7,0,0.9l-4.2,3.6c-0.2,0.2-0.6,0.2-0.8-0.1l-0.1-0.1 c-0.2-0.2-0.2-0.6,0.1-0.8l4.2-3.6C21.9,25.8,22.2,25.8,22.4,26z"/>
+                    <path id="XMLID_36_" class="yellow" d="M40.3,10.7L40.3,10.7c0.3,0.3,0.6,0.3,0.8,0.1l4.2-3.6c0.2-0.2,0.3-0.6,0.1-0.8l-0.1-0.1 c-0.2-0.2-0.6-0.3-0.8-0.1l-4.2,3.6C40.1,10.1,40,10.5,40.3,10.7z"/>
+                    <path id="XMLID_39_" class="yellow" d="M22.4,10.8L22.4,10.8c0.3-0.3,0.2-0.7,0-0.9l-4.2-3.6c-0.2-0.2-0.6-0.2-0.8,0.1l-0.1,0.1 c-0.2,0.2-0.2,0.6,0.1,0.8l4.2,3.6C21.9,11,22.2,11,22.4,10.8z"/>
+                    <path id="XMLID_38_" class="yellow" d="M40.3,26.1L40.3,26.1c0.3-0.3,0.6-0.3,0.8-0.1l4.2,3.6c0.2,0.2,0.3,0.6,0.1,0.8l-0.1,0.1 c-0.2,0.2-0.6,0.3-0.8,0.1l-4.2-3.6C40.1,26.7,40,26.3,40.3,26.1z"/>
+                  <animate attributeType="CSS"
+                    attributeName="opacity"
+                    attributeType="XML"
+                    dur="0.5s"
+                    keyTimes="0;0.5;1"
+                    repeatCount="indefinite"
+                    values="1;0.6;1"
+                    calcMode="linear"/>
+                </g>
+              </g>
+              <animateTransform attributeName="transform"
+                attributeType="XML"
+                dur="2s"
+                keyTimes="0;1"
+                repeatCount="indefinite"
+                type="scale"
+                values="1;1"
+                calcMode="linear">
+              </animateTransform>
+             </g>
+             <g id="Gray_cloud_3">
+                <path id="XMLID_20_" class="gray" d="M55.7,25.1H34.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C61.7,22.4,59,25.1,55.7,25.1z"/>
+                <circle id="XMLID_19_" class="gray" cx="46.7" cy="13.4" r="10.7"/>
+              <animateTransform attributeName="transform"
+                attributeType="XML"
+                dur="6s"
+                keyTimes="0;0.5;1"
+                repeatCount="indefinite"
+                type="translate"
+                values="0;-3;0"
+                calcMode="linear">
+              </animateTransform>
+             </g>
+           </g>
+          </svg>`,
+
+    "구름많음": `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 60.7 40" style="enable-background:new 0 0 60.7 40;" xml:space="preserve">
             <g id="Cloud_1">
                 <g id="White_cloud_1">
@@ -79,13 +143,14 @@ const iconTemplates = {
 // 실제 SVG 내용은 너무 길어 생략했으니 기존 작성하신 코드를 그대로 넣으세요.
 
 // 2. 데이터 정의
+/* djk: 삭제
 const weatherData = [
-    { city: "Chicago, IL", temp: 40, status: "맑음" },
+    { city: "포천", temp: 40, status: "맑음" },
     { city: "Seoul, KR", temp: 56, status: "눈" },
     { city: "London, UK", temp: 25, status: "흐림" },
     { city: "Tokyo, JP", temp: 70, status: "비" }
 ];
-
+*/
 // 3. DOM 요소 선택 (에러 방지를 위해 상단 배치)
 const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
@@ -194,10 +259,10 @@ async function fetchS3WeatherData() {
             console.log("찾은 데이터:", targetItem);
             
             // numEf가 3인 데이터의 ta(-12 등)를 가져와서 HTML에 넣기
-            document.getElementById('temp').innerText = targetItem.ta;
+            document.getElementById('temp').innerText = targetItem.ta; /*기온*/
             
             // 날씨 상태(wf)도 함께 업데이트
-            document.getElementById('status').innerText = targetItem.wf;
+            document.getElementById('status').innerText = targetItem.wf; /*날씨*/
         } else {
             console.warn("numEf가 3인 데이터를 찾을 수 없습니다.");
         }
@@ -226,6 +291,7 @@ async function fetchS3WeatherData() {
 
     // [A. 위치 정보 획득] - 페이지 로드와 함께 위치를 먼저 받습니다.
     let userLat, userLon;
+    
     try {
         const position = await new Promise((resolve, reject) => {
             // 별도의 alert 없이 내부적으로 위치를 요청합니다.
@@ -237,12 +303,30 @@ async function fetchS3WeatherData() {
         });
         userLat = position.coords.latitude;
         userLon = position.coords.longitude;
+    
         console.log(`위치 확인 완료: ${userLat}, ${userLon}`);
-    } catch (error) {
+    } /*djk: 삭제 
+     catch (error) {
         console.error("위치 정보 획득 실패:", error);
         const cityDisplay = document.getElementById('city');
+        
         if (cityDisplay) cityDisplay.innerText = "위치 확인 불가";
+        
         return; // 위치를 못 받으면 날씨 조회를 중단합니다.
+        
+    }*/ catch (error) {
+    console.error("위치 정보 획득 실패:", error);
+    // 위치를 못 가져오면 기본 좌표(서울 시청 등)를 설정해버립니다.  
+    //서울 위치 정보 설정
+    userLat = 37.5665; 
+    userLon = 126.9780;
+    console.log("기본 위치(서울)로 날씨를 조회합니다.");
+    
+    //[개발용] 위의 '서울' 지역 코드 주석처리 후 개발 테스트용으로 사용 하시면 됩니다.
+    /*userLat = 0.0; 
+    userLon = 0.0;
+    console.log("~ 로 날씨를 조회합니다.");
+    */
     }
 
     // [B. 시간 및 날짜 표시 로직]
@@ -284,7 +368,7 @@ async function fetchS3WeatherData() {
         const data = await response.json();
         const itemArray = data.response.body.items.item;
 
-        let closestItem = null;
+        let closestItem = null;  
         let minDistance = Infinity;
 
         itemArray.forEach(item => {
@@ -295,19 +379,43 @@ async function fetchS3WeatherData() {
             }
         });
 
+        //[개발용] 지역, 기온, 날씨상태, 날씨상태에 맞는 아이콘인지 확인 테스트하는 개발용으로 사용하시면 됩니다.
+        /*
+        if (closestItem) {
+            console.log("------------------------------------------");
+            console.log("📍 [테스트] 내 위치와 가장 가까운 지역 데이터");
+            console.table({
+                "지역명": closestItem.region_name || closestItem.regId,
+                "기온(ta)": closestItem.ta,
+                "날씨상태(wf)": closestItem.wf,
+                "S3파일명": targetFileName
+            });
+
+            // 아이콘 매칭 여부 확인
+            if (iconTemplates[closestItem.wf]) {
+                console.log(`✅ 아이콘 매칭 성공: "${closestItem.wf}" SVG를 표시합니다.`);
+            } else {
+                console.warn(`❌ 아이콘 매칭 실패: "${closestItem.wf}"에 해당하는 아이콘이 iconTemplates에 없습니다.`);
+            }
+            console.log("------------------------------------------");
+        }
+        */
+
+
+
         if (closestItem) {
             // 화면 UI 업데이트
             const cityDisplay = document.getElementById('city');
-            if (cityDisplay) cityDisplay.innerText = closestItem.region_name || closestItem.regId;
+            if (cityDisplay) cityDisplay.innerText = closestItem.region_name || closestItem.regId; /*해당 지역명*/
 
             const tempDisplay = document.getElementById('temp');
-            if (tempDisplay) tempDisplay.innerText = closestItem.ta;
+            if (tempDisplay) tempDisplay.innerText = closestItem.ta; /*해당 지역의 기온 값*/
 
             const statusDisplay = document.getElementById('status');
-            if (statusDisplay) statusDisplay.innerText = closestItem.wf;
-
+            if (statusDisplay) statusDisplay.innerText = closestItem.wf; /*해당 지역의 날씨 텍스트 값(맑음, 비, 흐림)*/
+            
             const iconDisp = document.getElementById('weather-icon-container');
-            if (iconDisp && typeof iconTemplates !== 'undefined' && iconTemplates[closestItem.wf]) {
+            if (iconDisp && typeof iconTemplates !== 'undefined' && iconTemplates[closestItem.wf]) { /*날씨 아이콘*/
                 iconDisp.innerHTML = iconTemplates[closestItem.wf];
             }
         }
@@ -317,10 +425,7 @@ async function fetchS3WeatherData() {
 }
 
 // 3. 페이지 로드 시 실행 트리거
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
     fetchS3WeatherData(); 
 });
-=======
 document.addEventListener('DOMContentLoaded', fetchS3WeatherData);
->>>>>>> 973d44130081b69bcd06568fc9dd10ff523ab146

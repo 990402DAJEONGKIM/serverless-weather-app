@@ -103,10 +103,7 @@ header p { font-size: 1rem; opacity: 0.9; letter-spacing: 1px; }
 }
 .overlay.active { display: block; }
 #location-list li { padding: 15px; cursor: pointer; border-radius: 8px; list-style: none; }
-<<<<<<< HEAD
 #location-list li:hover { background: rgba(255, 255, 255, 0.1); }
-=======
 #location-list li:hover { background: rgba(255, 255, 255, 0.1); }
 /**/
 /**/
->>>>>>> 973d44130081b69bcd06568fc9dd10ff523ab146
